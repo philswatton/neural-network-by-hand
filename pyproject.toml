@@ -1,0 +1,31 @@
+[tool.poetry]
+name = "neural-networks-by-hand"
+version = "0.1.0"
+description = ""
+authors = ["philswatton <philswatton@gmail.com>"]
+readme = "README.md"
+packages = [{include = "neural_networks_by_hand"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+jupyter-book = "^0.13.1"
+numpy = "^1.24.1"
+
+[tool.poetry.group.dev.dependencies]
+pytest = ">=6.0.0"
+pytest-mock = "*"
+black = ">=22.10.0"
+flake8 = ">=6.0.0"
+isort = ">=5.10.1"
+pre-commit = "^2.20.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 88
+include = '\.pyi?$'
+
+[tool.isort]
+profile = "black"
