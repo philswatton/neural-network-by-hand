@@ -1,0 +1,9 @@
+format: jb-book
+root: intro
+parts:
+  - caption: Prerequesites
+    chapters:
+    - file: gradient-descent
+  - caption: Feedforward Neural Network
+    chapters:
+    - file: notebooks
