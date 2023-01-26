@@ -4,11 +4,12 @@ parts:
   - caption: Prerequesites
     chapters:
     - file: gradient-descent
+    - file: vector-and-matrix-calculus
     - file: chain-rule
   - caption: Building Blocks
     chapters:
     - file: forward-propagation
     - file: back-propagation
-  - caption: Feedforward Neural Network
-    chapters:
-    - file: feedforward-neural-networks
+  # - caption: Feedforward Neural Network
+  #   chapters:
+  #   - file: feedforward-neural-network
