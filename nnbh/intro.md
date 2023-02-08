@@ -31,4 +31,4 @@ Once you've read that, the main resources I used in being able to build this jup
 - The Matrix Calculus You Need For Deep Learning by Terrence Parr and Jeremy Howard, [link](https://explained.ai/matrix-calculus/), [paper version](https://arxiv.org/abs/1802.01528)
 - Neural Networks and Deep Learning by Michael Nielsen, [link](http://neuralnetworksanddeeplearning.com/index.html)
 
-In particular I found *The Matrix Calculus You Need For Deep Learning* incredibly helpful for wrapping my haid around the vector/matrix calculus used in estimating the neural networks. It's a document I'd recommend to anyone trying to wrap their head around backpropagation in particular.
+In particular I found *The Matrix Calculus You Need For Deep Learning* incredibly helpful for wrapping my haid around the vector/matrix calculus used in estimating the neural networks. It's a document I'd recommend to anyone trying to wrap their head around backpropagation in particular. In the sections on calculus and the chain rule, I refer to it in places as TMCYNFDL.
