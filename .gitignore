@@ -1,2 +1,4 @@
 .venv/
 nnbh/_build/
+nnbh/data/
+*.ipynb_checkpoints
