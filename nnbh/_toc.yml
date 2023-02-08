@@ -8,8 +8,11 @@ parts:
     - file: chain-rule
   - caption: Building Blocks
     chapters:
-    - file: forward-propagation
+    - file: neurons-and-networks
     - file: back-propagation
-  # - caption: Feedforward Neural Network
-  #   chapters:
-  #   - file: feedforward-neural-network
+    - file: activation-functions
+    - file: cost-functions
+    - file: softmax
+  - caption: Putting it all together
+    chapters:
+    - file: feedforward-neural-network
