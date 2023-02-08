@@ -123,6 +123,16 @@ const thebe_selector_output = ".output, .cell_output"
    Gradient Descent
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="vector-and-matrix-calculus.html">
+   Vector and Matrix Calculus
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chain-rule.html">
+   The Chain Rule
+  </a>
+ </li>
 </ul>
 <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
@@ -131,8 +141,8 @@ const thebe_selector_output = ".output, .cell_output"
 </p>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="forward-propagation.html">
-   Forward Propagation
+  <a class="reference internal" href="neurons-and-networks.html">
+   Neurons and Networks
   </a>
  </li>
  <li class="toctree-l1">
@@ -140,16 +150,31 @@ const thebe_selector_output = ".output, .cell_output"
    Backward Propagation
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="activation-functions.html">
+   Activation Functions and their Derivatives
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="cost-functions.html">
+   Cost Functions and their Derivatives
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="softmax.html">
+   Softmax and Cross-Entropy
+  </a>
+ </li>
 </ul>
 <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
-  Feedforward Neural Network
+  Putting it all together
  </span>
 </p>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="notebooks.html">
-   Content with notebooks
+  <a class="reference internal" href="feedforward-neural-network.html">
+   Feedforward Neural Networks
   </a>
  </li>
 </ul>
@@ -307,12 +332,41 @@ title="Print to PDF"
     </ul>
   </div>
 </div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
 
     </div>
 </div>
 
 <!-- Table of contents -->
 <div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#about-the-notebook">
+   About the notebook
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#some-further-readings">
+   Some further readings
+  </a>
+ </li>
+</ul>
+
+    </nav>
 </div>
     </div>
     <div class="article row">
@@ -324,6 +378,24 @@ title="Print to PDF"
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#about-the-notebook">
+   About the notebook
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#some-further-readings">
+   Some further readings
+  </a>
+ </li>
+</ul>
+
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -333,16 +405,41 @@ title="Print to PDF"
                 
   <section class="tex2jax_ignore mathjax_ignore" id="neural-networks-by-hand">
 <h1>Neural Networks by Hand<a class="headerlink" href="#neural-networks-by-hand" title="Permalink to this headline">#</a></h1>
+<p>WIP</p>
 <p>In this <a class="reference external" href="https://jupyterbook.org/en/stable/intro.html">jupyter book</a>, I set out how to build a feedforward neural network function from scratch using only base python and numpy.</p>
-<p>This notebook largely exists for the purpose of my own self-learning. Hopefully however it’s also useful for someone other than myself. A lot of neural network by hand type tutorials usually focus on neural networks with either a single or at most two hidden layers. I’d like to instead focus on producing a more general solution, which means:</p>
+<section id="about-the-notebook">
+<h2>About the notebook<a class="headerlink" href="#about-the-notebook" title="Permalink to this headline">#</a></h2>
+<p>This notebook largely exists for the purpose of my own self-learning. Hopefully however it’s also useful for someone other than myself. A lot of neural network by hand type tutorials usually focus on neural networks with either a single or at most two hidden layers. I’d like to instead focus on producing a general solution, which means:</p>
 <ul class="simple">
 <li><p>arbitrary number of hidden layers</p></li>
 <li><p>arbitrary width of each hidden layer</p></li>
 <li><p>different activation functions available both for hidden and output layers</p></li>
 <li><p>different loss functions available</p></li>
 </ul>
-<p>Of course, in practice the one thing I won’t be doing is writing super-optimised code. So ‘arbitary’ depth and width will have some natural constraints.</p>
-<p>Nonetheless, it is my hope that in producing a general solution, I’ll improve my own understanding of what’s going on when I use pytorch or tensorflow in the future.</p>
+<p>Of course, in practice the one thing I won’t be doing is writing super-optimised code. So ‘arbitary’ depth and width will have some the natural contrains of becoming fairly slow in the time it takes for something to be computed.</p>
+<p>I’ve borrowed extensively from several courses, documents, textbooks, stackexchange answers and wikipedia articles in the course of putting these notes together. As with other things, I found that re-reading the same thing in different ways helped me to better understand it. My background prior to my current position as a data scientist was in political science, where there was much more emphasis on statistics than machine learning. So, if that’s also your background, then hopefully this list of resources to which this jupyter book owes a lot will help you on your own learning journey:</p>
+</section>
+<section id="some-further-readings">
+<h2>Some further readings<a class="headerlink" href="#some-further-readings" title="Permalink to this headline">#</a></h2>
+<p>Before reading the pages here, it’s worth considering the resources I learned from in order to be able to put all of this together. In many cases these are probably better resoruces than the one here, and so you’re likely to get more benefit out of them than you are out of using this document.</p>
+<p>Before getting into deep learning, it’s worth familiarising yourself with machine learning more broadly. I’d recommend these two resources:</p>
+<ul class="simple">
+<li><p>Statistical modeling: The two cultures by Leo Breiman (a classic), <a class="reference external" href="https://projecteuclid.org/journals/statistical-science/volume-16/issue-3/Statistical-Modeling--The-Two-Cultures-with-comments-and-a/10.1214/ss/1009213726.full">link</a></p></li>
+<li><p>Machine Learning for the Social Sciences, an Agnostic Approach by Justin Grimmer, Margret Roberts, and Brandon Stewart (a must-read for social scientists coming at this from a stats background), <a class="reference external" href="https://www.annualreviews.org/doi/abs/10.1146/annurev-polisci-053119-015921">link</a></p></li>
+</ul>
+<p>Once you’ve got those under your belt, I’d recommend starting with the following paper. It’s a summary of deep learning for psychologists, but it’s a great read for any social scientist looking to familiarise themselves with deep learning:</p>
+<ul class="simple">
+<li><p>Deep learning: A primer for psychologists by Christopher Urban and Kathleen Gates, <a class="reference external" href="https://psycnet.apa.org/record/2021-31499-001">link</a></p></li>
+</ul>
+<p>Once you’ve read that, the main resources I used in being able to build this jupyter book (although this list should not be taken as exhaustive - there were of course many stackexchange posts and other similarly helpful webpages on the way):</p>
+<ul class="simple">
+<li><p>Machine Learning Specialisation by Andrew Ng, <a class="reference external" href="https://www.coursera.org/specializations/machine-learning-introduction">link</a></p></li>
+<li><p>Deep Learning Specialisation by Andrew Ng, <a class="reference external" href="https://www.coursera.org/specializations/deep-learning">link</a></p></li>
+<li><p>The Matrix Calculus You Need For Deep Learning by Terrence Parr and Jeremy Howard, <a class="reference external" href="https://explained.ai/matrix-calculus/">link</a>, <a class="reference external" href="https://arxiv.org/abs/1802.01528">paper version</a></p></li>
+<li><p>Neural Networks and Deep Learning by Michael Nielsen, <a class="reference external" href="http://neuralnetworksanddeeplearning.com/index.html">link</a></p></li>
+</ul>
+<p>In particular I found <em>The Matrix Calculus You Need For Deep Learning</em> incredibly helpful for wrapping my haid around the vector/matrix calculus used in estimating the neural networks. It’s a document I’d recommend to anyone trying to wrap their head around backpropagation in particular.</p>
+</section>
 <div class="toctree-wrapper compound">
 </div>
 <div class="toctree-wrapper compound">

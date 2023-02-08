@@ -1,0 +1,1307 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Feedforward Neural Networks &#8212; Neural Networks by Hand</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Softmax and Cross-Entropy" href="softmax.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Neural Networks by Hand</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Neural Networks by Hand
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Prerequesites
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="gradient-descent.html">
+   Gradient Descent
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="vector-and-matrix-calculus.html">
+   Vector and Matrix Calculus
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chain-rule.html">
+   The Chain Rule
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Building Blocks
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="neurons-and-networks.html">
+   Neurons and Networks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="back-propagation.html">
+   Backward Propagation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="activation-functions.html">
+   Activation Functions and their Derivatives
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="cost-functions.html">
+   Cost Functions and their Derivatives
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="softmax.html">
+   Softmax and Cross-Entropy
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Putting it all together
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Feedforward Neural Networks
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/philswatton/neural-networks-by-hand/gh-pages?urlpath=tree/feedforward-neural-network.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/philswatton/neural-networks-by-hand"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/philswatton/neural-networks-by-hand/issues/new?title=Issue%20on%20page%20%2Ffeedforward-neural-network.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="_sources/feedforward-neural-network.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#activation-functions">
+   Activation Functions
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#cost-functions">
+   Cost Functions
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#managing-activation-and-cost-function-choice">
+   Managing Activation and Cost Function Choice
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#weight-initialisation">
+   Weight Initialisation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#forward-propagation">
+   Forward Propagation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#back-propagation">
+   Back Propagation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#a-feedforward-neural-network-function">
+   A Feedforward Neural Network Function
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#example-1-learning-xor">
+   Example 1: Learning XOR
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#example-2-digit-classification">
+   Example 2: Digit Classification
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Feedforward Neural Networks</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#activation-functions">
+   Activation Functions
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#cost-functions">
+   Cost Functions
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#managing-activation-and-cost-function-choice">
+   Managing Activation and Cost Function Choice
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#weight-initialisation">
+   Weight Initialisation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#forward-propagation">
+   Forward Propagation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#back-propagation">
+   Back Propagation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#a-feedforward-neural-network-function">
+   A Feedforward Neural Network Function
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#example-1-learning-xor">
+   Example 1: Learning XOR
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#example-2-digit-classification">
+   Example 2: Digit Classification
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="feedforward-neural-networks">
+<h1>Feedforward Neural Networks<a class="headerlink" href="#feedforward-neural-networks" title="Permalink to this headline">#</a></h1>
+<p>With all of the prior material established, I can now turn to the goal of this jupyter book: writing a general feedforward neural network (FNN) function. This function won’t be particularly optimised - indeed, it’s fairly slow in practice. It does however work.</p>
+<p>Since neural networks by their nature are fairly modular, I’ll be taking a modular approach to programming this function. I’ll start by writing the code for various activation functions, cost functions, their derivatives, weight initialisation functions, and functions to mananage which ones to use given an input string.</p>
+<p>From there, I’ll write an FNN function that uses all of these internally.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="activation-functions">
+<h2>Activation Functions<a class="headerlink" href="#activation-functions" title="Permalink to this headline">#</a></h2>
+<p>First, I’ll implement the activation functions and their derivatives.</p>
+<p>Note that we don’t really need the softmax derivative as the derivative of the cost with respect to the output nodes’ weighted inputs is a known quantity. Because of this, there is a placeholder function that returns None (this is a little inefficient - but avoids me having to rewrite the whole network!):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">sigmoid</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Element-wise sigmoid function</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        x: array of values</span>
+
+<span class="sd">    Returns: array of transformed values of the same shape as x</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">deriv_sigmoid</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Element-wise sigmoid derivative function</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        x: array of values</span>
+
+<span class="sd">    Returns: array of transformed values of the same shape as x</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">sigmoid</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">softmax</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Element-wise softmax function</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        x: array of values</span>
+
+<span class="sd">    Returns: array of transformed values of the same shape as x</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">shiftx</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="c1">#creates numerical stability w/out changing result</span>
+    <span class="n">expx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">shiftx</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">expx</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">expx</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">deriv_softmax</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Placeholder function for softmax derivative. Not necessary because of</span>
+<span class="sd">    the formula for dCost/dZ for the output layer</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="kc">None</span>
+    
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">tanh</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Element-wise tanh function</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        x: array of values</span>
+
+<span class="sd">    Returns: array of transformed values of the same shape as x</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">deriv_tanh</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Element-wise tanh derivative function</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        x: array of values</span>
+
+<span class="sd">    Returns: array of transformed values of the same shape as x</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">tanh</span><span class="p">(</span><span class="n">x</span><span class="p">),</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">relu</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Element-wise ReLU function</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        x: array of values</span>
+
+<span class="sd">    Returns: array of transformed values of the same shape as x</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span><span class="o">&gt;=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">deriv_relu</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Element-wise ReLU derivative function</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        x: array of values</span>
+
+<span class="sd">    Returns: array of transformed values of the same shape as x</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">x</span><span class="o">&gt;=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;int&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">linear</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Element-wise linear function</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        x: array of values</span>
+
+<span class="sd">    Returns: array of transformed values of the same shape as x</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">x</span>
+
+<span class="k">def</span> <span class="nf">deriv_linear</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Element-wise linear derivative function</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        x: array of values</span>
+
+<span class="sd">    Returns: array of transformed values of the same shape as x</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="cost-functions">
+<h2>Cost Functions<a class="headerlink" href="#cost-functions" title="Permalink to this headline">#</a></h2>
+<p>Next, the cost functions and their derivatives. We don’t actually need to compute the cost to estimate a neural network, but I think it’s useful to demonstrate how it can be done.</p>
+<p>As with softmax, we also don’t need the derivative of cross-entropy as the derivative of the cost with respect to the output nodes’ weighted inputs is a known quantity.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">mse</span><span class="p">(</span><span class="n">yhat</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    MSE cost function</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        yhat: Array of predicted values</span>
+<span class="sd">        y: Array of true values</span>
+
+<span class="sd">    Returns: An array of costs</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">yhat</span><span class="o">-</span><span class="n">y</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">deriv_mse</span><span class="p">(</span><span class="n">yhat</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    MSE cost derivative function</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        yhat: Array of predicted values</span>
+<span class="sd">        y: Array of true values</span>
+
+<span class="sd">    Returns: An array of cost derviatives</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">yhat</span><span class="o">-</span><span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">binary_cross_entropy</span><span class="p">(</span><span class="n">yhat</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Binary cross entropy cost function</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        yhat: Array of predicted values</span>
+<span class="sd">        y: Array of true values</span>
+
+<span class="sd">    Returns: An array of costs</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="o">-</span><span class="n">y</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">yhat</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">yhat</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">deriv_binary_cross_entropy</span><span class="p">(</span><span class="n">yhat</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Binary cross entropy cost derivatives function</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        yhat: Array of predicted values</span>
+<span class="sd">        y: Array of true values</span>
+
+<span class="sd">    Returns: An array of cost derivatives</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="o">-</span><span class="p">(</span><span class="n">y</span><span class="o">/</span><span class="n">yhat</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">yhat</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">cross_entropy</span><span class="p">(</span><span class="n">yhat</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Cross entropy cost function</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        yhat: Array of predicted values</span>
+<span class="sd">        y: Array of true values</span>
+
+<span class="sd">    Returns: An array of costs</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="o">-</span><span class="n">y</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">yhat</span><span class="p">),</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">cross_entropy_deriv</span><span class="p">(</span><span class="n">yhat</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Placeholder cross entropy cost derivatives function. Not required</span>
+<span class="sd">    in practice as softmax dZ term is known</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        yhat: Array of predicted values</span>
+<span class="sd">        y: Array of true values</span>
+
+<span class="sd">    Returns: An array of cost derivatives</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="kc">None</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="managing-activation-and-cost-function-choice">
+<h2>Managing Activation and Cost Function Choice<a class="headerlink" href="#managing-activation-and-cost-function-choice" title="Permalink to this headline">#</a></h2>
+<p>To aid in managing all of these, I also wrote some functions that return the relevant functions based on an input string. This means the final FNN function will take a string as input to describe the hidden and output activations. I could also have passed the functions directly, but this helped render the code a little clearer.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_activation</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A function to manage which activation function and</span>
+<span class="sd">    derivative to use given input string</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        name: the name of the activation function</span>
+
+<span class="sd">    Returns: The activation function and its derivative</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;sigmoid&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">sigmoid</span><span class="p">,</span> <span class="n">deriv_sigmoid</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;softmax&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">softmax</span><span class="p">,</span> <span class="n">deriv_softmax</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;tanh&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">tanh</span><span class="p">,</span> <span class="n">deriv_tanh</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;relu&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">relu</span><span class="p">,</span> <span class="n">deriv_relu</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;linear&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">linear</span><span class="p">,</span> <span class="n">deriv_linear</span>
+
+<span class="k">def</span> <span class="nf">get_cost</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A function to manage which cost function and</span>
+<span class="sd">    derivative to use given input string</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        name: the name of the cost function</span>
+
+<span class="sd">    Returns: The cost function and its derivative</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;mse&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">mse</span><span class="p">,</span> <span class="n">deriv_mse</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;bce&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">binary_cross_entropy</span><span class="p">,</span> <span class="n">deriv_binary_cross_entropy</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;ce&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">cross_entropy</span><span class="p">,</span> <span class="n">cross_entropy_deriv</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="weight-initialisation">
+<h2>Weight Initialisation<a class="headerlink" href="#weight-initialisation" title="Permalink to this headline">#</a></h2>
+<p>An important step in setting up a neural network is initialising the weights. The network won’t be successfully estimated if we initialise the weights at 0, and it’s possible to initialise weights in such a manner that exploding or shrinking gradients are encouraged from the start. To avoid that outcome, I’ve therefore implemented some established weight initialisation algorithms here:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">xavier_init</span><span class="p">(</span><span class="n">shape</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Xavier initialisation of weights</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        shape: tuple giving the shape of the weights</span>
+
+<span class="sd">    Returns: np.ndarray of initialised weights</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">num_input</span> <span class="o">=</span> <span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">num_output</span> <span class="o">=</span> <span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">W</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">num_output</span><span class="p">,</span> <span class="n">num_input</span><span class="p">)</span> <span class="o">/</span> <span class="n">num_input</span>
+    <span class="k">return</span> <span class="n">W</span>
+
+<span class="k">def</span> <span class="nf">he_init</span><span class="p">(</span><span class="n">shape</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    He initialisation of weights</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        shape: tuple giving the shape of the weights</span>
+
+<span class="sd">    Returns: np.ndarray of initialised weights</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">num_input</span> <span class="o">=</span> <span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">num_output</span> <span class="o">=</span> <span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">W</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">num_output</span><span class="p">,</span> <span class="n">num_input</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="n">num_input</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">W</span>
+
+<span class="k">def</span> <span class="nf">linear_init</span><span class="p">(</span><span class="n">shape</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Simple initialisation of weights</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        shape: tuple giving the shape of the weights</span>
+
+<span class="sd">    Returns: np.ndarray of initialised weights</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">num_input</span> <span class="o">=</span> <span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">num_output</span> <span class="o">=</span> <span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">W</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">num_output</span><span class="p">,</span> <span class="n">num_input</span><span class="p">)</span><span class="o">/</span><span class="n">num_input</span>
+    <span class="k">return</span> <span class="n">W</span>
+
+<span class="k">def</span> <span class="nf">get_init</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A function to manage which weights initalisation</span>
+<span class="sd">    to use</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        name: the name of the activation function</span>
+
+<span class="sd">    Returns: An initialisation function</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;sigmoid&quot;</span> <span class="ow">or</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;softmax&quot;</span> <span class="ow">or</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;tanh&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">xavier_init</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;relu&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">he_init</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;linear&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">linear_init</span>
+    
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="forward-propagation">
+<h2>Forward Propagation<a class="headerlink" href="#forward-propagation" title="Permalink to this headline">#</a></h2>
+<p>Here I implement the forward propagation algorithm. This takes the input features matrix X, the weights, the biases, and the activiation function, and propagates the data forward through the network to produce a prediction.</p>
+<p>Note that since A_list stores X as its first entry for ease of computation for both the forward and backward passes, its indices correspond to the hidden layers (i.e. A[i] would correspond to the ith hidden layer). So, on the fisrt part of the loop (i=0), A[i] would be A[0] and thus correspond to X. While Z[i] = Z[0] would be for i+1 - i.e. the first layer’s weighted input.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">forward_pass</span><span class="p">(</span><span class="n">X</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+                 <span class="n">W_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
+                 <span class="n">B_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
+                 <span class="n">activation_hidden</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
+                 <span class="n">activation_output</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
+                 <span class="n">num_pass</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A function that performs forward-propagation through a network</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        X: matrix of input features</span>
+<span class="sd">        weight_list: A list with num_features_out by num_features_in weight</span>
+<span class="sd">                     matrices, where num_features_out is the number of outputs</span>
+<span class="sd">                     to the layer and num_features_in is the number of inputs to</span>
+<span class="sd">                     the layer</span>
+<span class="sd">        bias_list: A list with num_features_out by 1 bias matrices, where</span>
+<span class="sd">                   num_features_out is the number of outputs to the layer</span>
+<span class="sd">        activation_hidden: Activation function for hidden layers</span>
+<span class="sd">        activation_output: Activation function for the output layer</span>
+<span class="sd">        num_pass: Number of forward passes</span>
+
+<span class="sd">    Returns: Z_list, a list of layer weighted inputs, and A_list, a list of</span>
+<span class="sd">             activated weighted inputs. Both contain X as their first entry</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Z_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">A_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">X</span><span class="p">]</span> <span class="c1">#for use in backprop</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_pass</span><span class="p">):</span>
+        <span class="n">Z_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">W_list</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">A_list</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span> <span class="n">B_list</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">num_pass</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">A_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">activation_hidden</span><span class="p">(</span><span class="n">Z_list</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+        <span class="k">elif</span> <span class="n">i</span> <span class="o">==</span> <span class="p">(</span><span class="n">num_pass</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">A_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">activation_output</span><span class="p">(</span><span class="n">Z_list</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+
+    <span class="k">return</span> <span class="n">Z_list</span><span class="p">,</span> <span class="n">A_list</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="back-propagation">
+<h2>Back Propagation<a class="headerlink" href="#back-propagation" title="Permalink to this headline">#</a></h2>
+<p>And finally, here I implement the backpropagation algorthim. Note the slightly different implementations for dCost/dZ for the output layer depending on if softmax is used or not.</p>
+<p>As with forward propagation, the A_list contains X as an additional element - and so its indices behave slightly different to the other lists’ indices.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">back_pass</span><span class="p">(</span><span class="n">Y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+              <span class="n">W_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
+              <span class="n">Z_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
+              <span class="n">A_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
+              <span class="n">cost_deriv</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
+              <span class="n">activation_hidden_deriv</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
+              <span class="n">activation_output_deriv</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
+              <span class="n">num_pass</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+              <span class="n">num_obs</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+              <span class="n">softmax</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A function to perform backpropagation through the network</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        Y: array of output variables</span>
+<span class="sd">        W_list: list of layer weights</span>
+<span class="sd">        Z_list: list of layer weighted inputs</span>
+<span class="sd">        A_list: list of layer activations</span>
+<span class="sd">        cost_deriv: Cost derivative function</span>
+<span class="sd">        activation_hidden_deriv: Hidden layer activation func derivative</span>
+<span class="sd">        activation_output_deriv: Output layer activation func derivative</span>
+<span class="sd">        num_pass: Number of forward/backward passes</span>
+<span class="sd">        num_obs: Number of training examples/observations</span>
+
+<span class="sd">    Returns: dW_list, a list of weight derivatives, and dB_list, a list of</span>
+<span class="sd">             bias derivatives</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">softmax</span><span class="p">:</span>
+        <span class="n">dZ</span> <span class="o">=</span> <span class="n">A_list</span><span class="p">[</span><span class="n">num_pass</span><span class="p">]</span> <span class="o">-</span> <span class="n">Y</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">softmax</span><span class="p">:</span> 
+        <span class="n">dZ</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">cost_deriv</span><span class="p">(</span><span class="n">A_list</span><span class="p">[</span><span class="n">num_pass</span><span class="p">],</span> <span class="n">Y</span><span class="p">),</span> <span class="n">activation_output_deriv</span><span class="p">(</span><span class="n">Z_list</span><span class="p">[</span><span class="n">num_pass</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="n">dW_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">dZ</span><span class="p">,</span> <span class="n">A_list</span><span class="p">[</span><span class="n">num_pass</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">/</span><span class="n">num_obs</span><span class="p">]</span>
+    <span class="n">dB_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dZ</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">/</span><span class="n">num_obs</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_pass</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">dZ</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">W_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">dZ</span><span class="p">),</span> <span class="n">activation_hidden_deriv</span><span class="p">(</span><span class="n">Z_list</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="n">dW_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">dZ</span><span class="p">,</span> <span class="n">A_list</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">/</span><span class="n">num_obs</span><span class="p">]</span> <span class="o">+</span> <span class="n">dW_list</span>
+        <span class="n">dB_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dZ</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">/</span><span class="n">num_obs</span><span class="p">]</span> <span class="o">+</span> <span class="n">dB_list</span>
+    <span class="k">return</span> <span class="n">dW_list</span><span class="p">,</span> <span class="n">dB_list</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="a-feedforward-neural-network-function">
+<h2>A Feedforward Neural Network Function<a class="headerlink" href="#a-feedforward-neural-network-function" title="Permalink to this headline">#</a></h2>
+<p>With all of the above functions impelemented, it’s time to put them all together. This function does a few things:</p>
+<ul class="simple">
+<li><p>Puts data in desired format (num_features by num_observations, instead of vice versa)</p></li>
+<li><p>Uses the functions above to prepare the activation functions, cost function, and their derivatives</p></li>
+<li><p>Runs a training loop. During a single cycle of the loop, it will:</p>
+<ul>
+<li><p>Forward-propagate the data to calculate the weighted inputs and activations</p></li>
+<li><p>Back-propagate to compute the gradients of the weights and the biases</p></li>
+<li><p>Update the weights according to gradient descent</p></li>
+</ul>
+</li>
+<li><p>This loop has two break conditions:</p>
+<ul>
+<li><p>The max number of iterations is reached</p></li>
+<li><p>The change in weights becomes sufficiently small</p></li>
+</ul>
+</li>
+</ul>
+<p>Finally, the function produces three outputs, two of which I’ll use in this jupyter book:</p>
+<ul class="simple">
+<li><p>The network’s predicted values for the input data</p></li>
+<li><p>The overall cost of the network</p></li>
+<li><p>A function built from the forward propagation function above that will generate predictions for new data</p></li>
+</ul>
+<p>There’s no reason I coudln’t have included other outputs such as the estimated weights, the final difference, or the final number of iterations. I don’t use the cost here, but since it’s not actually used in estimating the network I didn’t want it to be entirely superfluous to requirements.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">fnn</span><span class="p">(</span><span class="n">X</span><span class="p">,</span>
+        <span class="n">Y</span><span class="p">,</span>
+        <span class="n">hidden</span><span class="p">,</span>
+        <span class="n">learn_rate</span><span class="o">=</span><span class="mf">0.03</span><span class="p">,</span>
+        <span class="n">hidden_activation</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">,</span>
+        <span class="n">output_activation</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+        <span class="n">loss</span><span class="o">=</span><span class="s2">&quot;mse&quot;</span><span class="p">,</span>
+        <span class="n">tol</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span>
+        <span class="n">max_iter</span><span class="o">=</span><span class="mi">10000</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A feedforward neural network function that allows an arbitary number of </span>
+<span class="sd">    hidden layers and </span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        X: A num_obs by num_features input matrix</span>
+<span class="sd">        Y: A num_obs by num_outputs matrix</span>
+<span class="sd">        hidden: A list of length num_hidden_layers where the nth entry describes</span>
+<span class="sd">                the number of nodes for the nth hidden layer.</span>
+<span class="sd">        learn_rate: Learning rate of the network.</span>
+<span class="sd">        hidden_activation: String denoting activation function for hidden layers.</span>
+<span class="sd">        output_activation: String denoting activation function for output layer.</span>
+<span class="sd">        loss: String denoting the loss function</span>
+<span class="sd">        tol: Minimum difference for break criteria in the training loop</span>
+<span class="sd">        max_iter: Maximum number of training iterations.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1"># Data will be aligned in a different format to the network</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">Y</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">T</span>
+    
+    <span class="c1"># Initialise network: core numbers</span>
+    <span class="n">shape_X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">num_obs</span> <span class="o">=</span> <span class="n">shape_X</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">indices</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">num_obs</span><span class="p">))</span>
+    <span class="n">num_features</span> <span class="o">=</span> <span class="n">shape_X</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">shape_Y</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">num_output</span> <span class="o">=</span> <span class="n">shape_Y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">num_hidden</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">hidden</span><span class="p">)</span>
+    <span class="n">num_pass</span> <span class="o">=</span> <span class="n">num_hidden</span> <span class="o">+</span> <span class="mi">1</span> <span class="c1">#passes between layers</span>
+    
+    <span class="c1"># Initialise network: weights W:</span>
+    <span class="n">hidden_init</span><span class="p">,</span> <span class="n">output_init</span> <span class="o">=</span> <span class="n">get_init</span><span class="p">(</span><span class="n">hidden_activation</span><span class="p">),</span> <span class="n">get_init</span><span class="p">(</span><span class="n">output_activation</span><span class="p">)</span>
+    <span class="n">W_list</span> <span class="o">=</span>  <span class="p">[</span><span class="n">hidden_init</span><span class="p">((</span><span class="n">hidden</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">num_features</span><span class="p">))]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_hidden</span><span class="p">):</span>
+        <span class="n">W_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">hidden_init</span><span class="p">((</span><span class="n">hidden</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">hidden</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">])))</span>
+    <span class="n">W_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">output_init</span><span class="p">((</span><span class="n">num_output</span><span class="p">,</span> <span class="n">hidden</span><span class="p">[</span><span class="n">num_hidden</span><span class="o">-</span><span class="mi">1</span><span class="p">])))</span>
+    
+    <span class="c1"># Initialise network: biases B</span>
+    <span class="n">B_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_hidden</span><span class="p">):</span>
+        <span class="n">B_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">hidden</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="mi">1</span><span class="p">)))</span>
+    <span class="n">B_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num_output</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span>
+    
+    <span class="c1"># Initalise network: activation + cost funcs and their derivatives</span>
+    <span class="n">activation_hidden</span><span class="p">,</span> <span class="n">activation_hidden_deriv</span> <span class="o">=</span> <span class="n">get_activation</span><span class="p">(</span><span class="n">hidden_activation</span><span class="p">)</span>
+    <span class="n">activation_output</span><span class="p">,</span> <span class="n">activation_output_deriv</span> <span class="o">=</span> <span class="n">get_activation</span><span class="p">(</span><span class="n">output_activation</span><span class="p">)</span>
+    <span class="n">cost_func</span><span class="p">,</span> <span class="n">cost_deriv</span> <span class="o">=</span> <span class="n">get_cost</span><span class="p">(</span><span class="n">loss</span><span class="p">)</span>
+    <span class="n">softmax_bool</span> <span class="o">=</span> <span class="n">output_activation</span> <span class="o">==</span> <span class="s2">&quot;softmax&quot;</span>
+    
+    <span class="c1"># Training loop</span>
+    <span class="nb">iter</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">diff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+    <span class="k">while</span> <span class="p">(</span><span class="nb">iter</span> <span class="o">&lt;</span> <span class="n">max_iter</span> <span class="ow">and</span> <span class="n">diff</span> <span class="o">&gt;</span> <span class="n">tol</span><span class="p">):</span>
+        <span class="c1"># Compute forward pass</span>
+        <span class="n">Z_list</span><span class="p">,</span> <span class="n">A_list</span> <span class="o">=</span> <span class="n">forward_pass</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span>
+                                      <span class="n">W_list</span><span class="o">=</span><span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">W_list</span><span class="p">),</span>
+                                      <span class="n">B_list</span><span class="o">=</span><span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">B_list</span><span class="p">),</span>
+                                      <span class="n">activation_hidden</span><span class="o">=</span><span class="n">activation_hidden</span><span class="p">,</span>
+                                      <span class="n">activation_output</span><span class="o">=</span><span class="n">activation_output</span><span class="p">,</span>
+                                      <span class="n">num_pass</span><span class="o">=</span><span class="n">num_pass</span><span class="p">)</span>
+        
+        <span class="c1"># Backpropagate to find gradients</span>
+        <span class="n">dW_list</span><span class="p">,</span> <span class="n">dB_list</span> <span class="o">=</span> <span class="n">back_pass</span><span class="p">(</span><span class="n">cost_deriv</span><span class="o">=</span><span class="n">cost_deriv</span><span class="p">,</span>
+                                     <span class="n">Y</span><span class="o">=</span><span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">Y</span><span class="p">),</span>
+                                     <span class="n">activation_output_deriv</span><span class="o">=</span><span class="n">activation_output_deriv</span><span class="p">,</span>
+                                     <span class="n">activation_hidden_deriv</span><span class="o">=</span><span class="n">activation_hidden_deriv</span><span class="p">,</span>
+                                     <span class="n">W_list</span><span class="o">=</span><span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">W_list</span><span class="p">),</span>
+                                     <span class="n">A_list</span><span class="o">=</span><span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">A_list</span><span class="p">),</span>
+                                     <span class="n">Z_list</span><span class="o">=</span><span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">Z_list</span><span class="p">),</span>
+                                     <span class="n">num_pass</span><span class="o">=</span><span class="n">num_pass</span><span class="p">,</span>
+                                     <span class="n">num_obs</span><span class="o">=</span><span class="n">num_obs</span><span class="p">,</span>
+                                     <span class="n">softmax</span><span class="o">=</span><span class="n">softmax_bool</span><span class="p">)</span>
+        
+        <span class="c1"># Update params (w_new = w_old - learn_rate * gradient(w_old))</span>
+        <span class="n">W_old</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">W_list</span><span class="p">)</span>
+        <span class="n">B_old</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">B_list</span><span class="p">)</span>
+        <span class="n">new_diff</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_pass</span><span class="p">):</span>
+            <span class="n">W_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">W_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="n">learn_rate</span> <span class="o">*</span> <span class="n">dW_list</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="n">B_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">B_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="n">learn_rate</span> <span class="o">*</span> <span class="n">dB_list</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="n">new_diff</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">W_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">W_old</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">B_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">B_old</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+        <span class="n">diff</span> <span class="o">=</span> <span class="n">new_diff</span>
+
+        <span class="c1"># Increment iterations</span>
+        <span class="nb">iter</span> <span class="o">+=</span> <span class="mi">1</span>
+    
+    <span class="c1"># Predicted values of the network</span>
+    <span class="n">prediction</span> <span class="o">=</span> <span class="n">A_list</span><span class="p">[</span><span class="n">num_pass</span><span class="p">]</span><span class="o">.</span><span class="n">T</span>
+    
+    <span class="c1"># Cost of the network</span>
+    <span class="n">cost</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">cost_func</span><span class="p">(</span><span class="n">A_list</span><span class="p">[</span><span class="n">num_pass</span><span class="p">],</span> <span class="n">Y</span><span class="p">))</span>
+    
+    <span class="c1"># Prediction function for new data</span>
+    <span class="k">def</span> <span class="nf">fnn_pred_func</span><span class="p">(</span><span class="n">newdata</span><span class="p">):</span>
+        <span class="n">new_X</span> <span class="o">=</span> <span class="n">newdata</span><span class="o">.</span><span class="n">T</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">A_list</span> <span class="o">=</span> <span class="n">forward_pass</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="n">new_X</span><span class="p">,</span>
+                                 <span class="n">W_list</span><span class="o">=</span><span class="n">W_list</span><span class="p">,</span>
+                                 <span class="n">B_list</span><span class="o">=</span><span class="n">B_list</span><span class="p">,</span>
+                                 <span class="n">activation_hidden</span><span class="o">=</span><span class="n">activation_hidden</span><span class="p">,</span>
+                                 <span class="n">activation_output</span><span class="o">=</span><span class="n">activation_output</span><span class="p">,</span>
+                                 <span class="n">num_pass</span><span class="o">=</span><span class="n">num_pass</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">A_list</span><span class="p">[</span><span class="n">num_pass</span><span class="p">]</span><span class="o">.</span><span class="n">T</span>
+    
+    <span class="c1"># Return Yhat</span>
+    <span class="k">return</span> <span class="n">prediction</span><span class="p">,</span> <span class="n">cost</span><span class="p">,</span> <span class="n">fnn_pred_func</span>
+    
+    
+    
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="example-1-learning-xor">
+<h2>Example 1: Learning XOR<a class="headerlink" href="#example-1-learning-xor" title="Permalink to this headline">#</a></h2>
+<p>With the network function implemented, it’s time to put it to the test. For the first test, I’ll run it on XOR. If you’re unfamiliar with XOR, it’s a logical operation read as ‘exclusive OR’. It takes two binary inputs. If one <em>but not the other</em> is true, then it returns true. If both inputs are false, or if both inputs are true, it returns false.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+              <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>
+              <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+              <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]])</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">],[</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">],[</span><span class="mi">0</span><span class="p">]])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[0 0]
+ [0 1]
+ [1 0]
+ [1 1]]
+[[0]
+ [1]
+ [1]
+ [0]]
+</pre></div>
+</div>
+</div>
+</div>
+<p>The difficulty of XOR is that it’s plainly non-linear to the inputs. Without using interactions, it would be impossible to model in any kind of linear model. The power of neural networks however is that they can approximate any function, including non-linear functions.</p>
+<p>In this case, all we need is a single hidden layer with 2 neurons. With this, we should have enough to estimate a reasonably accurate network.</p>
+<p>Since none of the inputs are negative, ReLU would be a poor choice of activation function, as with negative weights a neuron would become ‘dead’ (unless a different initialisation which prevented negative weights was used). I therefore chose a sigmoid activation for the hidden layer.</p>
+<p>Similarly, since the output layer is binary, I used a sigmoid output activation and binary cross-entropy loss function.</p>
+<p>Since all the possible feature combinations of XOR are known, I examined only the predicted output for the input data in this case.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">pred</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">fnn</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span>
+                 <span class="n">Y</span><span class="o">=</span><span class="n">Y</span><span class="p">,</span>
+                 <span class="n">hidden</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+                 <span class="n">learn_rate</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span>
+                 <span class="n">hidden_activation</span><span class="o">=</span><span class="s2">&quot;sigmoid&quot;</span><span class="p">,</span>
+                 <span class="n">output_activation</span><span class="o">=</span><span class="s2">&quot;sigmoid&quot;</span><span class="p">,</span>
+                 <span class="n">loss</span><span class="o">=</span><span class="s2">&quot;bce&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[0.]
+ [1.]
+ [1.]
+ [0.]]
+</pre></div>
+</div>
+</div>
+</div>
+<p>As you can see, the network successfully estimates the correct values for XOR. While this demonstrates the network’s ability to approximate non-linear functions through the use of hidden layers and appropriate activation functions.</p>
+</section>
+<section id="example-2-digit-classification">
+<h2>Example 2: Digit Classification<a class="headerlink" href="#example-2-digit-classification" title="Permalink to this headline">#</a></h2>
+<p>XOR is a however fairly simple example - so let’s turn to something more involved. I’m now going to test my FNN function on one of the sklearn toy datasets. In particular, I’m going to test it on the handwritten digits toy dataset.</p>
+<p>This is a dataset of 8x8 pixel images of digits ranging from 0 to 9. I’ll attempt to classify the images based on the individual pixels. First, I’ll download the data split it into training and test data:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Download data</span>
+<span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_digits</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="n">data</span><span class="p">,</span> <span class="n">target</span> <span class="o">=</span> <span class="n">load_digits</span><span class="p">(</span><span class="n">n_class</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">return_X_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">as_frame</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">target</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">target</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="mi">1</span><span class="p">))</span>
+
+<span class="c1"># Split data</span>
+<span class="n">indices</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+<span class="n">train_indices</span><span class="p">,</span> <span class="n">test_indices</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">indices</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">stratify</span><span class="o">=</span><span class="n">target</span><span class="p">)</span>
+<span class="n">train_X</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">train_indices</span><span class="p">,:]</span>
+<span class="n">train_Y</span> <span class="o">=</span> <span class="n">target</span><span class="p">[</span><span class="n">train_indices</span><span class="p">,:]</span>
+<span class="n">test_X</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">test_indices</span><span class="p">,:]</span>
+<span class="n">test_Y</span> <span class="o">=</span> <span class="n">target</span><span class="p">[</span><span class="n">test_indices</span><span class="p">,:]</span>
+
+<span class="c1"># One-hot encode the targets</span>
+<span class="n">num_classes</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="k">def</span> <span class="nf">one_hot</span><span class="p">(</span><span class="n">vec</span><span class="p">):</span>
+    <span class="n">oh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">num_classes</span><span class="p">)[</span><span class="n">vec</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">vec</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">oh</span>
+<span class="n">train_Y_oh</span> <span class="o">=</span> <span class="n">one_hot</span><span class="p">(</span><span class="n">train_Y</span><span class="p">)</span>
+<span class="n">test_Y_oh</span> <span class="o">=</span> <span class="n">one_hot</span><span class="p">(</span><span class="n">test_Y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>With the data prepared, I’ll now train a network on it. Unlike XOR, there is not a limited set of possible feature combinations, so this time the emphasis will be on how well the model predicts new data. I thus focus on the prediction function output.</p>
+<p>Since this dataset is more complex (64 features, 10 classes), I used a more complex network setup. In this case, a network with two hidden layers. The first hidden layer contains 20 neurons, the second 10 neurons, for a total of 40 hidden layer neurons.</p>
+<p>For similar reasons in the case of XOR, I used a sigmoid activation function for the hiddden layers. This time however, since our output is not one but many classes, I used a softmax output activation and cross-entropy loss function.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">3298</span><span class="p">)</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">pred_func</span> <span class="o">=</span> <span class="n">fnn</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="n">train_X</span><span class="p">,</span>
+                      <span class="n">Y</span><span class="o">=</span><span class="n">train_Y_oh</span><span class="p">,</span>
+                      <span class="n">hidden</span><span class="o">=</span><span class="p">[</span><span class="mi">20</span><span class="p">,</span><span class="mi">10</span><span class="p">],</span>
+                      <span class="n">learn_rate</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span>
+                      <span class="n">hidden_activation</span><span class="o">=</span><span class="s2">&quot;sigmoid&quot;</span><span class="p">,</span>
+                      <span class="n">output_activation</span><span class="o">=</span><span class="s2">&quot;softmax&quot;</span><span class="p">,</span>
+                      <span class="n">loss</span><span class="o">=</span><span class="s2">&quot;ce&quot;</span><span class="p">,</span>
+                      <span class="n">max_iter</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>With the network estimated, I’ll now get the predictions from the network. Since I don’t want to compare against probabilities, I’ll use the value the network considers likeliest given the test data:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">prediction</span> <span class="o">=</span> <span class="n">pred_func</span><span class="p">(</span><span class="n">test_X</span><span class="p">)</span>
+<span class="n">prediction_vec</span> <span class="o">=</span> <span class="n">prediction</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>All that remains is to compute the perentage of the data that was correctly predicted:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">test_Y</span> <span class="o">==</span> <span class="n">prediction_vec</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">test_Y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.95
+</pre></div>
+</div>
+</div>
+</div>
+<p>95% of predictions are correct! Pretty good going as far as handwritten digit recognition goes.</p>
+<p>This concludes the demonstration of the feedforward neural network function. It works for arbitrarily sized data and for arbitarily sized neural networks, although it will probably be fairly slow in practice for larger datasets and networks. The ultimate goal of the juptyer book has therefore been realised.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="softmax.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Softmax and Cross-Entropy</p>
+        </div>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Phil Swatton<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>
