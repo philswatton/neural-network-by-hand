@@ -3,18 +3,19 @@ digraph G {
     rankdir=LR
 	splines=line
 
-        node [fixedsize=true, label=""];
+	node [fixedsize=true, label=""];
 
-        subgraph cluster_0 {
+	subgraph cluster_0 {
 		color=white;
 		node [style=solid,color=black, shape=circle];
 		x1 x2 x3;
 	}
 
 	subgraph cluster_1 {
-		color=white;
+		color=black;
 		node [style=solid,color=black, shape=circle];
-		a11;
+		label="Neuron";
+		z11, a11;
 	}
 
     subgraph cluster_2 {
@@ -27,11 +28,15 @@ digraph G {
     x2 [label=<X<SUB>2</SUB>>]
     x3 [label=<X<SUB>3</SUB>>]
 
-	a11 [label=<a<SUB>1</SUB>>]
+	z11 [label=<z<SUP>(1)</SUP><SUB>1</SUB>>]
 
-    x1 -> a11;
-    x2 -> a11;
-    x3 -> a11;
+	a11 [label=<a<SUP>(1)</SUP><SUB>1</SUB>>]
+
+    x1 -> z11 [label=<w<SUP>(1)</SUP><SUB>11</SUB>>];
+    x2 -> z11 [label=<w<SUP>(1)</SUP><SUB>12</SUB>>];
+    x3 -> z11 [label=<w<SUP>(1)</SUP><SUB>13</SUB>>];
+
+    z11 -> a11 [label="σ( )"];
 
     a11 -> O
 
