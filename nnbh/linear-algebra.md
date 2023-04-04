@@ -8,9 +8,9 @@ This section of the guide won't much linear algebra - just the parts you need to
 
 A *matrix* is an array of numbers. Here are some:
 
-$$ \boldsymbol{A} = \begin{bmatrix} 2 & 4 \\ 5 & 1 \end{bmatrix} \\[5pt]
-\boldsymbol{B} = \begin{bmatrix} 1 & 2 & 3 \\ 4 & 5 & 6 \end{bmatrix} \\[5pt]
-\boldsymbol{C} = \begin{bmatrix} 1 & 2 \\ 3 & 4 \\ 5 & 6 \end{bmatrix} $$
+$$ \boldsymbol{A} = \begin{bmatrix} 2 & 4 \\ 5 & 1 \end{bmatrix} $$
+$$ \boldsymbol{B} = \begin{bmatrix} 1 & 2 & 3 \\ 4 & 5 & 6 \end{bmatrix} $$
+$$ \boldsymbol{C} = \begin{bmatrix} 1 & 2 \\ 3 & 4 \\ 5 & 6 \end{bmatrix} $$
 
 A matrix has $n$ rows and $m$ columns. We write this as $n \times m$ and call this the *order* or *dimensions* of the matrix. If $n=m$, we call the matrix a *square matrix*.
 
