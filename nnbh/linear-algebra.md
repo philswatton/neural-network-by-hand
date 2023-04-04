@@ -140,14 +140,34 @@ $$ \boldsymbol{M} \times 2 = \begin{bmatrix}
     14 & 16 & 18
 \end{bmatrix}$$
 
+## Element-Wise Matrix Multiplication
+
+Sometimes (although rarely), we want to multiply the corresponding elements of two matrices. This is called a *Hadamard product*. This is somewhat rare in many linear algebra applications, but is reasonably common in a deep learning context.
+
+If we wanted to multiply the *elements* of our matrices $\boldsymbol{M}$ and $\boldsymbol{N}$, for the purposes of this notebook we will use the $\odot$ symbol (note that other documents may use other symbols). We can write the element-wise multiplication of both matrices as:
+
+$$ \boldsymbol{M} \odot \boldsymbol{N} = \begin{bmatrix}
+    1 & 2 & 3 \\
+    4 & 5 & 6 \\
+    7 & 8 & 9
+\end{bmatrix} \odot \begin{bmatrix}
+    10 & 20 & 30 \\
+    40 & 50 & 60 \\
+    70 & 80 & 90
+\end{bmatrix} = \begin{bmatrix}
+    10 & 40 & 90 \\
+    160 & 250 & 360 \\
+    490 & 640 & 810
+\end{bmatrix}$$
+
 ## Matrix Multiplication
 
 Last but probably most important among the matrix operations I'll be covering in this document is matrix multiplication.
 
 Let's go back to our $\boldsymbol{B}$ and $\boldsymbol{C}$ matrices from earlier:
 
-$$ \boldsymbol{B} = \begin{bmatrix} 1 & 2 & 3 \\ 4 & 5 & 6 \end{bmatrix} \\[5pt]
-\boldsymbol{C} = \begin{bmatrix} 1 & 2 \\ 3 & 4 \\ 5 & 6 \end{bmatrix} $$
+$$ \boldsymbol{B} = \begin{bmatrix} 1 & 2 & 3 \\ 4 & 5 & 6 \end{bmatrix} $$
+$$ \boldsymbol{C} = \begin{bmatrix} 1 & 2 \\ 3 & 4 \\ 5 & 6 \end{bmatrix} $$
 
 Note that $\boldsymbol{B}$ has order $2 \times 3$ and $\boldsymbol{C}$ has order $3 \times 2$. To mutliply two matrices, the number of columns in the first matrix must match the number of rows in the second matrix. So in this case, $\boldsymbol{B}\boldsymbol{C}$ is a valid matrix multiplication, and so is $\boldsymbol{C}\boldsymbol{B}$.
 
