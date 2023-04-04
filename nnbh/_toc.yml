@@ -4,6 +4,7 @@ parts:
   - caption: Prerequesites
     chapters:
     - file: gradient-descent
+    - file: linear-algebra
     - file: vector-and-matrix-calculus
     - file: chain-rule
   - caption: Building Blocks
