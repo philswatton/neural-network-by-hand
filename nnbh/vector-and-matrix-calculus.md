@@ -1,5 +1,9 @@
 # Vector and Matrix Calculus
 
+Since we need derivatives for gradient descent, and since we're representing our neural network in matrix form, we're going to need some extra rules of calculus above and beyond those used for scalar calculus.
+
+Foruntately, just as vectors matrices are a way of organising numbers and equations, so too is vector and matrix calculus a way of organising derivatives (amongst other things). It's good however to be aware of the way in which we'd expect our derivatives to be organised, as this will be a useful reference point down the line.
+
 ## Motivation: Partial Derivatives
 
 Consider a function $f$ with two input variables, $x$ and $z$:
@@ -16,7 +20,7 @@ $$ \frac{\partial f(x,z)}{\partial z} = 3x^2 $$
 
 If we wish to organise our partial derivatives, we can store them in a vector, which we call the **gradient** of $f(x,z)$:
 
-$$ \triangledown f(x,z) = \begin{bmatrix} 6xz \\ 3x^2 \end{bmatrix} $$
+$$ \nabla f(x,z) = \begin{bmatrix} 6xz \\ 3x^2 \end{bmatrix} $$
 
 In general, we can move the use of vectors (and matrices) when we wish to start organising our derivatives in this fashion. In this light, vector and matrix calculus represent a notational system for **multivariable calculus**.
 
@@ -36,12 +40,12 @@ $$ g(x,z) = 2x + y^8 $$
 
 As before, we store the partial derivatives of $g(x,z)$ in a vector:
 
-$$ \triangledown g(x,z) = \begin{bmatrix} \frac{\partial g(x,z)}{\partial x} \\ \frac{\partial g(x,z)}{\partial z} \end{bmatrix} $$
+$$ \nabla g(x,z) = \begin{bmatrix} \frac{\partial g(x,z)}{\partial x} \\ \frac{\partial g(x,z)}{\partial z} \end{bmatrix} $$
 
 However, in combination with $f(x,z)$ we now have two vectors of partial derivatives. If we store $f(x,z)$ in a vector with $g(x,z)$, then take the derivative of this vector with respect to the vector storing $x$ and $z$, we obtain a matrix $\boldsymbol{J}$:
 
 $$
-\boldsymbol{J} = \begin{bmatrix} \triangledown f(x,z) \\ \triangledown g(x,z) \end{bmatrix} = \begin{bmatrix} \frac{\partial f(x,z)}{\partial x} & \frac{\partial f(x,z)}{\partial z} \\ \frac{\partial g(x,z)}{\partial x} & \frac{\partial g(x,z)}{\partial z} \end{bmatrix} = \begin{bmatrix} 6xz & 3x^2 \\ 2 & 8z^7 \end{bmatrix}
+\boldsymbol{J} = \begin{bmatrix} \nabla f(x,z) \\ \nabla g(x,z) \end{bmatrix} = \begin{bmatrix} \frac{\partial f(x,z)}{\partial x} & \frac{\partial f(x,z)}{\partial z} \\ \frac{\partial g(x,z)}{\partial x} & \frac{\partial g(x,z)}{\partial z} \end{bmatrix} = \begin{bmatrix} 6xz & 3x^2 \\ 2 & 8z^7 \end{bmatrix}
 $$
 
 This matrix is known as the **Jacobian**.
@@ -54,7 +58,7 @@ As before, we can generalise the notion of deriving a vector with respect to a v
 
 Suppose we have an $n$-length vector of functions $\boldsymbol{f}$, and an $m$-length vector of variables $\boldsymbol{x}$. The derivative of $\boldsymbol{f}$ with respect to $\boldsymbol{x}$ is then:
 
-$$ \boldsymbol{J} = \begin{bmatrix} \frac{\partial \boldsymbol{f}}{\partial x_1} & \cdots & \frac{\partial \boldsymbol{f}}{\partial x_n} \end{bmatrix} = \begin{bmatrix} \triangledown^T f_1 \\ \vdots \\ \triangledown^T f_m \end{bmatrix} = \begin{bmatrix} \frac{\partial f_1}{\partial x_1} & \cdots & \frac{\partial f_1}{\partial x_n} \\ \vdots & \ddots & \vdots \\ \frac{\partial f_m}{\partial x_1} & \cdots & \frac{\partial f_m}{\partial x_n} \end{bmatrix}  $$
+$$ \boldsymbol{J} = \begin{bmatrix} \frac{\partial \boldsymbol{f}}{\partial x_1} & \cdots & \frac{\partial \boldsymbol{f}}{\partial x_n} \end{bmatrix} = \begin{bmatrix} \nabla^T f_1 \\ \vdots \\ \nabla^T f_m \end{bmatrix} = \begin{bmatrix} \frac{\partial f_1}{\partial x_1} & \cdots & \frac{\partial f_1}{\partial x_n} \\ \vdots & \ddots & \vdots \\ \frac{\partial f_m}{\partial x_1} & \cdots & \frac{\partial f_m}{\partial x_n} \end{bmatrix}  $$
 
 Where $\boldsymbol{J}$ is an $m \times n$ matrix, and $\Delta^T f_m$ is the transpose (i.e. row vector) of the gradient of $f_m$.
 
@@ -91,3 +95,6 @@ $$ \frac{\partial y_i}{\partial w_j} f_i(\boldsymbol{w}) \bigcirc g_i(\boldsymbo
 $f_i$ and $g_i$ will be constant with respect to $w_j$, $i \neq j$ when $ \bigcirc $ represents an *element-wise* binary operation.
 
 An element-wise binary operation occurs when $f_i$ is solely a function of $w_i$ and $g_i$ is solely a function of $x_i$. Some examples include vector addition, vector subtraction, element-wise multiplication of vectors, and element-wise division of vectors.
+
+<!-- This becomes useful because when we multiply a vector by a diagonal matrix, it's the equivalent of just performing element-wise multiplication between the vector and the diagonal (i.e. the output is a vector where the first element is the first element of the original times the first element of the diagonal, etc). This is a much simpler computation than when the matrix is not diagonal!  -->
+<!-- ^ This is wrong: need to fix -->
