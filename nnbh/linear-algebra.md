@@ -14,7 +14,7 @@ $$ \boldsymbol{A} = \begin{bmatrix} 2 & 4 \\ 5 & 1 \end{bmatrix} \\[5pt]
 \boldsymbol{B} = \begin{bmatrix} 1 & 2 & 3 \\ 4 & 5 & 6 \end{bmatrix} \\[5pt]
 \boldsymbol{C} = \begin{bmatrix} 1 & 2 \\ 3 & 4 \\ 5 & 6 \end{bmatrix} $$
 
-A matrix has $n$ rows and $m$ columns. We write this as $n \times m$ and call this the *order* of the matrix. If $n=m$, we call the matrix a *square matrix*.
+A matrix has $n$ rows and $m$ columns. We write this as $n \times m$ and call this the *order* or *dimensions* of the matrix. If $n=m$, we call the matrix a *square matrix*.
 
 If one of these values is 1, the matrix is a vector. We can have row vectors:
 
