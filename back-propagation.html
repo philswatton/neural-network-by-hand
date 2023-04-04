@@ -50,6 +50,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Activation Functions and their Derivatives" href="activation-functions.html" />
@@ -122,6 +124,11 @@ const thebe_selector_output = ".output, .cell_output"
  <li class="toctree-l1">
   <a class="reference internal" href="gradient-descent.html">
    Gradient Descent
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="linear-algebra.html">
+   Linear Algebra
   </a>
  </li>
  <li class="toctree-l1">
@@ -229,35 +236,6 @@ title="Toggle navigation"
         
     </div>
     <div class="header-article__right">
-<div class="menu-dropdown menu-dropdown-launch-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Launch interactive content">
-      <i class="fas fa-rocket"></i>
-  </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="https://mybinder.org/v2/gh/philswatton/neural-networks-by-hand/gh-pages?urlpath=tree/back-propagation.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Launch on Binder"
->
-  
-
-<span class="headerbtn__icon-container">
-  
-    <img src="_static/images/logo_binder.svg">
-  </span>
-<span class="headerbtn__text-container">Binder</span>
-</a>
-
-      </li>
-      
-    </ul>
-  </div>
-</div>
-
 <button onclick="toggleFullScreen()"
   class="headerbtn"
   data-toggle="tooltip"
@@ -325,7 +303,7 @@ title="Open an issue"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="_sources/back-propagation.ipynb"
+        <a href="_sources/back-propagation.md"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -336,7 +314,7 @@ title="Download source file"
 <span class="headerbtn__icon-container">
   <i class="fas fa-file"></i>
   </span>
-<span class="headerbtn__text-container">.ipynb</span>
+<span class="headerbtn__text-container">.md</span>
 </a>
 
       </li>
@@ -362,12 +340,93 @@ title="Print to PDF"
     </ul>
   </div>
 </div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
 
     </div>
 </div>
 
 <!-- Table of contents -->
 <div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#notation">
+   Notation
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#subscripts-and-superscripts">
+     Subscripts  and Superscripts
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#scalars-vectors-and-matrices">
+     Scalars, vectors, and matrices
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#symbols-and-their-meanings">
+     Symbols and their Meanings
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#in-short-the-four-backpropagation-rules">
+   In Short: The Four Backpropagation Rules
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#recap-previous-page">
+   Recap: Previous Page
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#starting-point-simplification">
+   Starting Point: Simplification
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#derivative-of-the-output-layer">
+   1. Derivative of the Output Layer
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#derviative-of-the-hidden-layers">
+   2. Derviative of the Hidden Layers
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#derivative-of-the-biases">
+   3. Derivative of the Biases
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#derivative-of-the-weights">
+   4. Derivative of the Weights
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#moving-to-multiple-observations">
+   Moving to Multiple Observations
+  </a>
+ </li>
+</ul>
+
+    </nav>
 </div>
     </div>
     <div class="article row">
@@ -379,6 +438,76 @@ title="Print to PDF"
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#notation">
+   Notation
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#subscripts-and-superscripts">
+     Subscripts  and Superscripts
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#scalars-vectors-and-matrices">
+     Scalars, vectors, and matrices
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#symbols-and-their-meanings">
+     Symbols and their Meanings
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#in-short-the-four-backpropagation-rules">
+   In Short: The Four Backpropagation Rules
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#recap-previous-page">
+   Recap: Previous Page
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#starting-point-simplification">
+   Starting Point: Simplification
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#derivative-of-the-output-layer">
+   1. Derivative of the Output Layer
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#derviative-of-the-hidden-layers">
+   2. Derviative of the Hidden Layers
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#derivative-of-the-biases">
+   3. Derivative of the Biases
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#derivative-of-the-weights">
+   4. Derivative of the Weights
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#moving-to-multiple-observations">
+   Moving to Multiple Observations
+  </a>
+ </li>
+</ul>
+
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -388,11 +517,193 @@ title="Print to PDF"
                 
   <section class="tex2jax_ignore mathjax_ignore" id="backward-propagation">
 <h1>Backward Propagation<a class="headerlink" href="#backward-propagation" title="Permalink to this headline">#</a></h1>
-<p>TODO</p>
+<p>So: we know what a neural network is and we know that in principle we can apply the chain rule to estimate the gradients of the weights and the biases in the network. Estimating the gradients in this way is known as <em>back propagation</em> in the deep learning world, as the error in the network is propagated backward through the network.</p>
+<p>There’s nothing special about backpropogation though: it really is just an application of a general set of mathematical rules for computing the derivatives of a composed function to the specific case of neural networks.</p>
+<section id="notation">
+<h2>Notation<a class="headerlink" href="#notation" title="Permalink to this headline">#</a></h2>
+<p>There is a lot of notation in what follows on this page. They can be divided into a few categories. This is in part a recap of some of the notations introduced in the previous page.</p>
+<section id="subscripts-and-superscripts">
+<h3>Subscripts  and Superscripts<a class="headerlink" href="#subscripts-and-superscripts" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
-<li><p>What is backprop, what is its relationship with gradient descent</p></li>
-<li><p>What are the four formulas, how can we derive them, what are the assumptions we make in deriving them</p></li>
+<li><p>Superscript: layer</p></li>
+<li><p>Subscript: node within layer</p></li>
+<li><p>Two subscripts: first is node within layer, next is node within previous layer</p></li>
 </ul>
+</section>
+<section id="scalars-vectors-and-matrices">
+<h3>Scalars, vectors, and matrices<a class="headerlink" href="#scalars-vectors-and-matrices" title="Permalink to this headline">#</a></h3>
+<ul class="simple">
+<li><p>lower case: scalar</p></li>
+<li><p>lower case, bold: vector</p></li>
+<li><p>upper case, bold: matrix</p></li>
+</ul>
+<p>Note that the lower/upper convention will mostly hold below, although it will be ignored for <span class="math notranslate nohighlight">\(\delta\)</span>.</p>
+</section>
+<section id="symbols-and-their-meanings">
+<h3>Symbols and their Meanings<a class="headerlink" href="#symbols-and-their-meanings" title="Permalink to this headline">#</a></h3>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(n^{(l)}\)</span>, the number of nodes in layer <span class="math notranslate nohighlight">\(l\)</span>. Note that the input layer is indexed by 0</p></li>
+<li><p><span class="math notranslate nohighlight">\(m\)</span>, the number of training examples in the dataset</p></li>
+<li><p><span class="math notranslate nohighlight">\(L\)</span>, the number of layers in the network (is equal to the number of hidden layers + 1. The input layer is not counted in this and is indexed by 0)</p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{X}\)</span>, the matrix of input data. Has dimensions <span class="math notranslate nohighlight">\(n^{(0)} \times m\)</span>, with features on rows and training examples on columns</p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{W}^{(l)}\)</span>, the matrix of weights for layer <span class="math notranslate nohighlight">\(l\)</span>. Has dimensions <span class="math notranslate nohighlight">\(n^{(l)} \times n^{(l-1)} \)</span>.</p>
+<ul>
+<li><p>The individual elements are <span class="math notranslate nohighlight">\(w^{(l)}_{ji}\)</span>, where <span class="math notranslate nohighlight">\(j\)</span> is the node in layer <span class="math notranslate nohighlight">\(l\)</span> the weight maps to and <span class="math notranslate nohighlight">\(i\)</span> is the node in layer <span class="math notranslate nohighlight">\(l-1\)</span> the weight maps from</p></li>
+</ul>
+</li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{b}^{(l)}\)</span>, the vector of biases for layer <span class="math notranslate nohighlight">\(l\)</span>. Is a column vector with <span class="math notranslate nohighlight">\(n^{(l)}\)</span> elements</p>
+<ul>
+<li><p>The individual elements are <span class="math notranslate nohighlight">\(b^{(l)}_{j}\)</span>, where <span class="math notranslate nohighlight">\(j\)</span> is the node in layer <span class="math notranslate nohighlight">\(l\)</span> the bias corresponds to</p></li>
+</ul>
+</li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{Z}^{(l)}\)</span>, the matrix of weighted inputs for layer <span class="math notranslate nohighlight">\(l\)</span>. Has dimensions <span class="math notranslate nohighlight">\(n^{(l)} \times m \)</span></p>
+<ul>
+<li><p>The individual elements are <span class="math notranslate nohighlight">\(z^{(l)}_{j}\)</span>, where <span class="math notranslate nohighlight">\(j\)</span> is the node in layer <span class="math notranslate nohighlight">\(l\)</span> the weighrd input corresponds to</p></li>
+</ul>
+</li>
+<li><p><span class="math notranslate nohighlight">\(\sigma^{(l)}()\)</span>, the activation function for layer <span class="math notranslate nohighlight">\(l\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\sigma^{{'}(l)}()\)</span>, the activation function for layer <span class="math notranslate nohighlight">\(l\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{A}^{(l)}\)</span>, the matrix of outputs of the activation function for layer <span class="math notranslate nohighlight">\(l\)</span>. Has dimensions <span class="math notranslate nohighlight">\(n^{(l)} \times m \)</span></p>
+<ul>
+<li><p>The individual elements are <span class="math notranslate nohighlight">\(a^{(l)}_{j}\)</span>, where <span class="math notranslate nohighlight">\(j\)</span> is the node in layer <span class="math notranslate nohighlight">\(l\)</span> the activation output corresponds to</p></li>
+</ul>
+</li>
+<li><p><span class="math notranslate nohighlight">\(C\)</span>, the overall cost of the network. Sometimes I will also refer to <span class="math notranslate nohighlight">\(C()\)</span> as the cost <em>function</em> of the network.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{\delta}^{(l)}\)</span> is shorthand for the derivative of the cost with respect to the weighed input. That is, <span class="math notranslate nohighlight">\(\boldsymbol{\delta}^{(l)} = \frac{\partial C}{\partial \boldsymbol{Z}^{(l)}}\)</span></p>
+<ul>
+<li><p>The individual elements are <span class="math notranslate nohighlight">\(\delta^{(l)}_jx = \frac{\partial C}{\partial z_{jx}}\)</span>, where <span class="math notranslate nohighlight">\(j\)</span> is the node in layer <span class="math notranslate nohighlight">\(l\)</span> the activation output corresponds to and <span class="math notranslate nohighlight">\(x\)</span> indexes the training example/observation</p></li>
+<li><p>Note that I will often refer to this as <em>the derivative in layer</em> <span class="math notranslate nohighlight">\(l\)</span>. This shorthand is fine, so long as we all understand it’s the derivative at the weighted input and not at the activation!</p></li>
+</ul>
+</li>
+<li><p><span class="math notranslate nohighlight">\(\nabla_a C\)</span> is shorthand for the derivative of the cost with respect to the activations in the output layer. That is, <span class="math notranslate nohighlight">\(\nabla_a C = \frac{\partial C}{\partial \boldsymbol{A}^{(L)}}\)</span></p></li>
+</ul>
+</section>
+</section>
+<section id="in-short-the-four-backpropagation-rules">
+<h2>In Short: The Four Backpropagation Rules<a class="headerlink" href="#in-short-the-four-backpropagation-rules" title="Permalink to this headline">#</a></h2>
+<p>In backpropagation, we need four rules. These are:</p>
+<ol class="simple">
+<li><p><strong>Derivative of the output layer:</strong> <span class="math notranslate nohighlight">\( \boldsymbol{\delta}^{(L)} = \nabla_a C \odot \sigma_L'(\boldsymbol{z}^{(L)}) \)</span></p></li>
+<li><p><strong>Derivative of the hidden layer:</strong> <span class="math notranslate nohighlight">\( \boldsymbol{\delta}^{(l)} = (\boldsymbol{W}^{(l+1)})^T\boldsymbol{\delta}^{(l+1)} \odot \sigma_l'(\boldsymbol{z}^{(l)}) \)</span></p></li>
+<li><p><strong>Derivative of the biases layer:</strong> <span class="math notranslate nohighlight">\( \frac{\partial C}{\partial \boldsymbol{b}^{(l)}} = \sum^m_{x=1} \boldsymbol{\delta}^{(l)}_x / m\)</span></p></li>
+<li><p><strong>Derivative of the weights:</strong> <span class="math notranslate nohighlight">\( \frac{\partial C}{\partial \boldsymbol{W}^{(l)}} = \boldsymbol{\delta}^{(l)}(\boldsymbol{A}^{(l-1)})^T / m\)</span></p></li>
+</ol>
+</section>
+<section id="recap-previous-page">
+<h2>Recap: Previous Page<a class="headerlink" href="#recap-previous-page" title="Permalink to this headline">#</a></h2>
+<p>As we go through the process of back propagation, it’s useful to recall that for each layer, we <em>first</em> compute a weighted input <span class="math notranslate nohighlight">\(\boldsymbol{Z}^{(l)}\)</span>, and <em>after</em> that we compute an element-wise activation <span class="math notranslate nohighlight">\(\boldsymbol{A}^{(l)}\)</span>.</p>
+</section>
+<section id="starting-point-simplification">
+<h2>Starting Point: Simplification<a class="headerlink" href="#starting-point-simplification" title="Permalink to this headline">#</a></h2>
+<p>Some general rules of thumb apply when considering backpropgation. First, for most cost functions <span class="math notranslate nohighlight">\(C()\)</span>, we compute the error for each training example, then sum the error and divide it by <span class="math notranslate nohighlight">\(m\)</span>. Because of the sum and line rules of calculus, we can basically ignore this step untill the end.</p>
+<p>In other words, we’re able to concentrate on the derivatives of the weights, biases, etc for a single training example, with the undesrtanding that at the end we’ll need to take the mean for each one (assuming that the cost function includes a sum, followed by a division by the number of training example).</p>
+<p>This means that <span class="math notranslate nohighlight">\(m=1\)</span>, and thus some matrices instead become column vectors: e.g. <span class="math notranslate nohighlight">\(\boldsymbol{z}^{(l)}\)</span> instead of <span class="math notranslate nohighlight">\(\boldsymbol{Z}^{(l)}\)</span>, etc. In general, if you spot a change of case from upper to lower, that’s what’s going on!</p>
+</section>
+<section id="derivative-of-the-output-layer">
+<h2>1. Derivative of the Output Layer<a class="headerlink" href="#derivative-of-the-output-layer" title="Permalink to this headline">#</a></h2>
+<p>The derivative of the output layer is given in matrix form by</p>
+<div class="math notranslate nohighlight">
+\[ \boldsymbol{\delta}^{(L)} = \nabla_a C \odot \sigma_L'(\boldsymbol{z}^{(L)}) \]</div>
+<p>where <span class="math notranslate nohighlight">\(\nabla_a C\)</span> is the vector of componenets <span class="math notranslate nohighlight">\(\frac{\partial C}{\partial a^{(L)}_j}\)</span>, <span class="math notranslate nohighlight">\(\sigma_L\)</span> is the output layer activation function and <span class="math notranslate nohighlight">\(\sigma_L'\)</span> is its derivative (with respect to the weighted input <span class="math notranslate nohighlight">\(\boldsymbol{z}^{(L)}\)</span>).</p>
+<p>To arrive at this, let’s start with the the formula for a single element of <span class="math notranslate nohighlight">\(\boldsymbol{\delta}^{(L)}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[ \delta^{(L)}_j = \frac{\partial C}{\partial z^{(L)}_j} \]</div>
+<p>Since the intermediary variables between <span class="math notranslate nohighlight">\(z^{(L)}_j\)</span> and <span class="math notranslate nohighlight">\(C\)</span> are the <span class="math notranslate nohighlight">\(a^{(L)}_k\)</span>, we can apply the chain rule:</p>
+<div class="math notranslate nohighlight">
+\[ \delta^{(L)}_j = \sum_k \frac{\partial C}{\partial a^{(L)}_k} \cdot \frac{\partial a^{(L)}_k}{\partial z^{(L)}_j} \]</div>
+<p>Assuming that we our activation <span class="math notranslate nohighlight">\(a^{(L)}_k\)</span> only depends on <span class="math notranslate nohighlight">\(Z^{(L)}_j\)</span> when <span class="math notranslate nohighlight">\(j=k\)</span> (which it will if the activation function is an element-wise function - which it often will be!) this simplifies to</p>
+<div class="math notranslate nohighlight">
+\[ \delta^{(L)}_j = \frac{\partial C}{\partial a^{(L)}_j} \cdot \frac{\partial a^{(L)}_j}{\partial z^{(L)}_j} \]</div>
+<p>Which implies that all we need to do is multiply two elements. This means that we can represent this in matrix form as <span class="math notranslate nohighlight">\(\nabla_a C \odot \sigma_L'(\boldsymbol{z}^{(L)})\)</span> (note that here the derivatives in the sum disappearing and the element-wise operations simplifying things to a hadamard product is the same thing!).</p>
+</section>
+<section id="derviative-of-the-hidden-layers">
+<h2>2. Derviative of the Hidden Layers<a class="headerlink" href="#derviative-of-the-hidden-layers" title="Permalink to this headline">#</a></h2>
+<p>The formula for the derivative in the hidden layer is given by</p>
+<div class="math notranslate nohighlight">
+\[ \boldsymbol{\delta}^{(l)} = (\boldsymbol{W}^{(l+1)})^T\boldsymbol{\delta}^{(l+1)} \odot \sigma_l'(\boldsymbol{z}^{(l)}) \]</div>
+<p>Once again, let’s start with a single element of <span class="math notranslate nohighlight">\(\delta^{(l)}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[ \delta^{(l)}_j = \frac{\partial C}{\partial z_j} \]</div>
+<p>We can use <span class="math notranslate nohighlight">\(z^{(l)}_k\)</span> as the intermediary variables between <span class="math notranslate nohighlight">\(z^{(l)}_j\)</span> and <span class="math notranslate nohighlight">\(C\)</span>. We then apply the chain rule:</p>
+<div class="math notranslate nohighlight">
+\[ \delta^{(l)}_j = \sum_k \frac{\partial C}{\partial z^{(l+1)}_k} \cdot \frac{\partial z^{(l+1)}_k}{\partial z^{(l)}_j} \]</div>
+<p>Applying the original definition of <span class="math notranslate nohighlight">\(\delta^{(l)}_j\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[ \delta^{(l)}_j = \sum_k \delta^{(l+1)}_k \frac{\partial z^{(l+1)}_k}{\partial Z^{(l)}_j} \]</div>
+<p>And rearranging:</p>
+<div class="math notranslate nohighlight">
+\[ \delta^{(l)}_j = \sum_k \frac{\partial z^{(l+1)}_k}{\partial z^{(l)}_i} \delta^{(l+1)}_k \]</div>
+<p>Recall that</p>
+<div class="math notranslate nohighlight">
+\[ z^{(l+1)}_k = \sum_j w^{(l+1)}_{kj} a^{(l)}_j + b^{(l+1)}_{k} = \sum_j w^{(l+1)}_{kj} \sigma(z^{l}_j) + b^{(l+1)}_{k} \]</div>
+<p>Differentiating for <span class="math notranslate nohighlight">\(z^{l}_j\)</span>, we obtain</p>
+<div class="math notranslate nohighlight">
+\[ \frac{\partial z^{(l+1)}_k}{\partial z^{l}_j} = w^{(l+1)}_{kj} \sigma'(z^{l}_j) \]</div>
+<p>Plugging this back into the formla for <span class="math notranslate nohighlight">\(\delta^{(l)}_j\)</span> and rearranging:</p>
+<div class="math notranslate nohighlight">
+\[ \delta^{(l)}_j = \sum_k w^{(l+1)}_{kj} \delta^{(l+1)}_k \sigma'(z^{l}_j) \]</div>
+<p>Here we have a dot product (summed multiplication) and another multiplication. We can transform the first part into a matrix multiplication and the second we can multiply in via a Hadamard product to get the overall matrix form:</p>
+<div class="math notranslate nohighlight">
+\[ \boldsymbol{\delta}^{(l)} = (\boldsymbol{W}^{(l+1)})^T\boldsymbol{\delta}^{(l+1)} \odot \sigma_l'(\boldsymbol{z}^{(l)}) \]</div>
+</section>
+<section id="derivative-of-the-biases">
+<h2>3. Derivative of the Biases<a class="headerlink" href="#derivative-of-the-biases" title="Permalink to this headline">#</a></h2>
+<p>The formula for the derivative of the biases is given by:</p>
+<div class="math notranslate nohighlight">
+\[ \frac{\partial C}{\partial \boldsymbol{b}^{(l)}} = \boldsymbol{\delta}^{(l)} \]</div>
+<p>We can use <span class="math notranslate nohighlight">\(z^{(l)}_k\)</span> as the intermediary variables between <span class="math notranslate nohighlight">\(b{(l)}_j\)</span> and <span class="math notranslate nohighlight">\(C\)</span>. We then apply the chain rule:</p>
+<div class="math notranslate nohighlight">
+\[ \frac{\partial C}{\partial b^{(l)}_j} = \sum_k \frac{\partial C}{\partial z^{(l)}_k} \cdot \frac{\partial z^{(l)}_k}{\partial b^{(l)}_j} \]</div>
+<p><span class="math notranslate nohighlight">\(z^{(l)}_k\)</span> will only depend on <span class="math notranslate nohighlight">\(b^{(l)}_j\)</span> when <span class="math notranslate nohighlight">\(k=j\)</span>, so the other terms become 0 and drop out of the sum:</p>
+<div class="math notranslate nohighlight">
+\[ \frac{\partial C}{\partial b^{(l)}_j} = \frac{\partial C}{\partial z^{(l)}_j} \cdot \frac{\partial z^{(l)}_j}{\partial b^{(l)}_j} \]</div>
+<p>Based on the definition of <span class="math notranslate nohighlight">\(z^{(l)}_j\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[ \frac{\partial C}{\partial b^{(l)}_j} = \frac{\partial C}{\partial z^{(l)}_j} \cdot \frac{\partial \sum_k w^{(l)}_{jk} a^{(l-1)}_k + b^{(l)}_j}{\partial b^{(l)}_j} \]</div>
+<p>Since the weights <span class="math notranslate nohighlight">\(w^{(l)}\)</span> and activations <span class="math notranslate nohighlight">\(a^{(l-1)}_k\)</span> do not dependend on <span class="math notranslate nohighlight">\(b^{(l)}_j\)</span>, the second term becomes 1 and thus:</p>
+<div class="math notranslate nohighlight">
+\[ \frac{\partial C}{\partial b^{(l)}_j} = \frac{\partial C}{\partial z^{(l)}_j} = \delta^{(l)}_j\]</div>
+<p>Which by definition is a single component of the vector <span class="math notranslate nohighlight">\(\boldsymbol{\delta}^{(l)}\)</span></p>
+</section>
+<section id="derivative-of-the-weights">
+<h2>4. Derivative of the Weights<a class="headerlink" href="#derivative-of-the-weights" title="Permalink to this headline">#</a></h2>
+<p>The formula for the derivative of the weights is given by:</p>
+<div class="math notranslate nohighlight">
+\[ \frac{\partial C}{\partial \boldsymbol{W}^{(l)}} = \boldsymbol{\delta}^{(l)}(\boldsymbol{a}^{(l-1)})^T \]</div>
+<p>We can once again use <span class="math notranslate nohighlight">\(z^{(l)}_k\)</span> as the intermediary variables between <span class="math notranslate nohighlight">\(w{(l)}_{ji\)</span> and <span class="math notranslate nohighlight">\(C\)</span>. We then apply the chain rule:</p>
+<div class="math notranslate nohighlight">
+\[ \frac{\partial C}{\partial w^{(l)}_{ji}} = \sum_k \frac{\partial C}{\partial z^{(l)}_{k}}\cdot\frac{\partial z^{(l)}_{k}}{\partial w^{(l)}_{ji}} \]</div>
+<p>Since <span class="math notranslate nohighlight">\(z^{(l)}_{k}\)</span> depends on <span class="math notranslate nohighlight">\(w^{(l)}_{ji}\)</span> only when <span class="math notranslate nohighlight">\(k=j\)</span>, this simplifies to</p>
+<div class="math notranslate nohighlight">
+\[ \frac{\partial C}{\partial w^{(l)}_{ji}} = \frac{\partial C}{\partial z^{(l)}_{j}}\cdot\frac{\partial z^{(l)}_{j}}{\partial w^{(l)}_{ji}} \]</div>
+<p>Apply the definition of <span class="math notranslate nohighlight">\(\delta^{(l)}_j\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[ \frac{\partial C}{\partial w^{(l)}_{ji}} = \delta^{(l)}_j \cdot \frac{\partial z^{(l)}_{j}}{\partial w^{(l)}_{ji}} \]</div>
+<p>Apply the definition of <span class="math notranslate nohighlight">\(z^{(l)}_{j}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[ \frac{\partial C}{\partial w^{(l)}_{ji}} = \delta^{(l)}_j \cdot \frac{\partial \sum_k w^{(l)}_{jk}a^{(l-1)}_{k} + b^{l}_j}{\partial w^{(l)}_{ji}} \]</div>
+<p>Since <span class="math notranslate nohighlight">\(w^{(l)}_{ij}\)</span> does not depend on any other <span class="math notranslate nohighlight">\(w^{(l)}_{ik}\)</span>, this simplifies to</p>
+<div class="math notranslate nohighlight">
+\[ \frac{\partial C}{\partial w^{(l)}_{ji}} = \delta^{(l)}_j \cdot \frac{\partial w^{(l)}_{ji}a^{(l-1)}_{i} + b^{l}_j}{\partial w^{(l)}_{ji}} \]</div>
+<p>which is solved as:</p>
+<div class="math notranslate nohighlight">
+\[ \frac{\partial C}{\partial w^{(l)}_{ji}} = \delta^{(l)}_j a^{(l-1)}_{i} \]</div>
+<p>Which can be expressed in matrix form as:</p>
+<div class="math notranslate nohighlight">
+\[ \boldsymbol{\delta}^{(l)}\boldsymbol{a}^{(l)T} \]</div>
+</section>
+<section id="moving-to-multiple-observations">
+<h2>Moving to Multiple Observations<a class="headerlink" href="#moving-to-multiple-observations" title="Permalink to this headline">#</a></h2>
+<p>Earlier on, we abstracted away the fact that our cost function will almost certainly involve some summing and division in order to average the derviatve over training examples. To produce the final backpropagation formulas, we need to consider this.</p>
+<p>First, rules 1 and 2 don’t need to change! Their dimensions will always be <span class="math notranslate nohighlight">\(n^{(l)} \times m\)</span>. Thus as <span class="math notranslate nohighlight">\(m\)</span> increases, their dimensions will remain correct.</p>
+<p>It’s at rules 3 and 4 we need to make some adjustments though. For rule 3, we need to sum the derivatives of the bias, then divide them by <span class="math notranslate nohighlight">\(m\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[ \frac{\partial C}{\partial \boldsymbol{b}^{(l)}} = \sum^m_{x=1} \boldsymbol{\delta}^{(l)}_x / m \]</div>
+<p>For rule 4, the sumation part is implicitly handled by the fact we use a matrix multiplication. We still need to remember to divide by <span class="math notranslate nohighlight">\(m\)</span> though:</p>
+<div class="math notranslate nohighlight">
+\[ \frac{\partial C}{\partial \boldsymbol{W}^{(l)}} = \boldsymbol{\delta}^{(l)}(\boldsymbol{A}^{(l-1)})^T / m \]</div>
+<p>These are the only adjustments we need to make the rules ready for our own neural network. All the rest stays the same!</p>
+</section>
 </section>
 
     <script type="text/x-thebe-config">

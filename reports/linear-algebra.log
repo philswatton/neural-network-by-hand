@@ -1,0 +1,54 @@
+Traceback (most recent call last):
+  File "/Users/pswatton/Documents/Code/neural-network-by-hand/.venv/lib/python3.10/site-packages/jupyter_cache/executors/utils.py", line 51, in single_nb_execution
+    executenb(
+  File "/Users/pswatton/Documents/Code/neural-network-by-hand/.venv/lib/python3.10/site-packages/nbclient/client.py", line 1204, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/Users/pswatton/Documents/Code/neural-network-by-hand/.venv/lib/python3.10/site-packages/nbclient/util.py", line 84, in wrapped
+    return just_run(coro(*args, **kwargs))
+  File "/Users/pswatton/Documents/Code/neural-network-by-hand/.venv/lib/python3.10/site-packages/nbclient/util.py", line 62, in just_run
+    return loop.run_until_complete(coro)
+  File "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/asyncio/base_events.py", line 646, in run_until_complete
+    return future.result()
+  File "/Users/pswatton/Documents/Code/neural-network-by-hand/.venv/lib/python3.10/site-packages/nbclient/client.py", line 663, in async_execute
+    await self.async_execute_cell(
+  File "/Users/pswatton/Documents/Code/neural-network-by-hand/.venv/lib/python3.10/site-packages/nbclient/client.py", line 965, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/Users/pswatton/Documents/Code/neural-network-by-hand/.venv/lib/python3.10/site-packages/nbclient/client.py", line 862, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+import numpy as np
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+
+x, z = np.linspace(-8,8,100), np.linspace(-8,8,100)
+X, Z = np.meshgrid(x,z)
+Y1 = 31 - 3*X
+Y2 = (16 - 2*X + 4*Y) / 2
+Y3 = (17 - X + 2*Y) / 4
+
+ax.plot_surface(X,Y,Z1, alpha=0.5, rstride=100, cstride=100)
+ax.plot_surface(X,Y,Z2, alpha=0.5, rstride=100, cstride=100)
+
+
+ax.plot((1,1),(-8,8),(-9,23), lw=2, c='b')
+ax.plot_surface(X,Y,Z3, alpha=0.5, facecolors='g', rstride=100, cstride=100)
+ax.plot((1,),(-2,),(3,), lw=2, c='k', marker='o')
+
+plt.show()
+------------------
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mNameError[0m                                 Traceback (most recent call last)
+Cell [0;32mIn[2], line 10[0m
+[1;32m      8[0m X, Z [38;5;241m=[39m np[38;5;241m.[39mmeshgrid(x,z)
+[1;32m      9[0m Y1 [38;5;241m=[39m [38;5;241m31[39m [38;5;241m-[39m [38;5;241m3[39m[38;5;241m*[39mX
+[0;32m---> 10[0m Y2 [38;5;241m=[39m ([38;5;241m16[39m [38;5;241m-[39m [38;5;241m2[39m[38;5;241m*[39mX [38;5;241m+[39m [38;5;241m4[39m[38;5;241m*[39m[43mY[49m) [38;5;241m/[39m [38;5;241m2[39m
+[1;32m     11[0m Y3 [38;5;241m=[39m ([38;5;241m17[39m [38;5;241m-[39m X [38;5;241m+[39m [38;5;241m2[39m[38;5;241m*[39mY) [38;5;241m/[39m [38;5;241m4[39m
+[1;32m     13[0m ax[38;5;241m.[39mplot_surface(X,Y,Z1, alpha[38;5;241m=[39m[38;5;241m0.5[39m, rstride[38;5;241m=[39m[38;5;241m100[39m, cstride[38;5;241m=[39m[38;5;241m100[39m)
+
+[0;31mNameError[0m: name 'Y' is not defined
+NameError: name 'Y' is not defined
+

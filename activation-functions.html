@@ -50,6 +50,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Cost Functions and their Derivatives" href="cost-functions.html" />
@@ -122,6 +124,11 @@ const thebe_selector_output = ".output, .cell_output"
  <li class="toctree-l1">
   <a class="reference internal" href="gradient-descent.html">
    Gradient Descent
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="linear-algebra.html">
+   Linear Algebra
   </a>
  </li>
  <li class="toctree-l1">
@@ -229,35 +236,6 @@ title="Toggle navigation"
         
     </div>
     <div class="header-article__right">
-<div class="menu-dropdown menu-dropdown-launch-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Launch interactive content">
-      <i class="fas fa-rocket"></i>
-  </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="https://mybinder.org/v2/gh/philswatton/neural-networks-by-hand/gh-pages?urlpath=tree/activation-functions.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Launch on Binder"
->
-  
-
-<span class="headerbtn__icon-container">
-  
-    <img src="_static/images/logo_binder.svg">
-  </span>
-<span class="headerbtn__text-container">Binder</span>
-</a>
-
-      </li>
-      
-    </ul>
-  </div>
-</div>
-
 <button onclick="toggleFullScreen()"
   class="headerbtn"
   data-toggle="tooltip"
@@ -325,7 +303,7 @@ title="Open an issue"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="_sources/activation-functions.ipynb"
+        <a href="_sources/activation-functions.md"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -336,7 +314,7 @@ title="Download source file"
 <span class="headerbtn__icon-container">
   <i class="fas fa-file"></i>
   </span>
-<span class="headerbtn__text-container">.ipynb</span>
+<span class="headerbtn__text-container">.md</span>
 </a>
 
       </li>
@@ -362,12 +340,51 @@ title="Print to PDF"
     </ul>
   </div>
 </div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
 
     </div>
 </div>
 
 <!-- Table of contents -->
 <div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#sigmoid">
+   Sigmoid
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#tanh">
+   Tanh
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#relu">
+   ReLU
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#linear">
+   Linear
+  </a>
+ </li>
+</ul>
+
+    </nav>
 </div>
     </div>
     <div class="article row">
@@ -379,6 +396,34 @@ title="Print to PDF"
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#sigmoid">
+   Sigmoid
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#tanh">
+   Tanh
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#relu">
+   ReLU
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#linear">
+   Linear
+  </a>
+ </li>
+</ul>
+
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -388,13 +433,55 @@ title="Print to PDF"
                 
   <section class="tex2jax_ignore mathjax_ignore" id="activation-functions-and-their-derivatives">
 <h1>Activation Functions and their Derivatives<a class="headerlink" href="#activation-functions-and-their-derivatives" title="Permalink to this headline">#</a></h1>
-<p>TODO</p>
+<p>WIP</p>
+<section id="sigmoid">
+<h2>Sigmoid<a class="headerlink" href="#sigmoid" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
-<li><p>Sigmoid</p></li>
-<li><p>Tanh</p></li>
-<li><p>ReLU</p></li>
-<li><p>Linear</p></li>
+<li><p>Ranges between 0 and 1</p></li>
+<li><p>Good choice for hidden layer when all the input variables are positive</p></li>
 </ul>
+<div class="math notranslate nohighlight">
+\[ \sigma(x) = \frac{1}{1 - e^{-x}}\]</div>
+<div class="math notranslate nohighlight">
+\[ \sigma'(x) = \sigma(x) \times \sigma(1-x) \]</div>
+</section>
+<section id="tanh">
+<h2>Tanh<a class="headerlink" href="#tanh" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p>Ranges between -1 and 1</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[ \sigma(x) = \frac{e^x - e^{-x}}{e^x + e^{-x}} \]</div>
+<div class="math notranslate nohighlight">
+\[ \sigma'(x) = 1 - \sigma(x)^2 \]</div>
+</section>
+<section id="relu">
+<h2>ReLU<a class="headerlink" href="#relu" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p>Very popular choice</p></li>
+<li><p>Note derivative technically does not exist as it is not a continuous function. In practice we ignore this</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[\begin{split} \sigma(x) = \begin{cases}
+    x, &amp; \text{if } x \geq 0\\
+    0, &amp; \text{otherwise}
+\end{cases} \end{split}\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split} \sigma'(x) = \begin{cases}
+    1, &amp; \text{if } x \geq 0\\
+    0, &amp; \text{otherwise}
+\end{cases} \end{split}\]</div>
+</section>
+<section id="linear">
+<h2>Linear<a class="headerlink" href="#linear" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p>Should only ever be used in the output layer for continuous outputs</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[ \sigma(x) = x \]</div>
+<div class="math notranslate nohighlight">
+\[ \sigma'(x) = 1 \]</div>
+</section>
 </section>
 
     <script type="text/x-thebe-config">

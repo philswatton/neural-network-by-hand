@@ -127,6 +127,11 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
  </li>
  <li class="toctree-l1">
+  <a class="reference internal" href="linear-algebra.html">
+   Linear Algebra
+  </a>
+ </li>
+ <li class="toctree-l1">
   <a class="reference internal" href="vector-and-matrix-calculus.html">
    Vector and Matrix Calculus
   </a>
@@ -231,35 +236,6 @@ title="Toggle navigation"
         
     </div>
     <div class="header-article__right">
-<div class="menu-dropdown menu-dropdown-launch-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Launch interactive content">
-      <i class="fas fa-rocket"></i>
-  </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="https://mybinder.org/v2/gh/philswatton/neural-networks-by-hand/gh-pages?urlpath=tree/chain-rule.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Launch on Binder"
->
-  
-
-<span class="headerbtn__icon-container">
-  
-    <img src="_static/images/logo_binder.svg">
-  </span>
-<span class="headerbtn__text-container">Binder</span>
-</a>
-
-      </li>
-      
-    </ul>
-  </div>
-</div>
-
 <button onclick="toggleFullScreen()"
   class="headerbtn"
   data-toggle="tooltip"
@@ -327,7 +303,7 @@ title="Open an issue"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="_sources/chain-rule.ipynb"
+        <a href="_sources/chain-rule.md"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -338,7 +314,7 @@ title="Download source file"
 <span class="headerbtn__icon-container">
   <i class="fas fa-file"></i>
   </span>
-<span class="headerbtn__text-container">.ipynb</span>
+<span class="headerbtn__text-container">.md</span>
 </a>
 
       </li>
@@ -396,6 +372,11 @@ title="Print to PDF"
    Scalar Chain Rule
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#total-derviative-chain-rule">
+   Total Derviative Chain Rule
+  </a>
+ </li>
 </ul>
 
     </nav>
@@ -423,6 +404,11 @@ title="Print to PDF"
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#scalar-chain-rule">
    Scalar Chain Rule
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#total-derviative-chain-rule">
+   Total Derviative Chain Rule
   </a>
  </li>
 </ul>
@@ -457,7 +443,37 @@ title="Print to PDF"
 <h2>Scalar Chain Rule<a class="headerlink" href="#scalar-chain-rule" title="Permalink to this headline">#</a></h2>
 <p>For scalar values and functions, the chain rule can be given as:</p>
 <div class="math notranslate nohighlight">
-\[ \frac{dy}{dx} = \frac{dy}{dz} \frac{dz}{dx} \]</div>
+\[ \frac{dy}{dx} = \frac{dy}{dz} \cdot \frac{dz}{dx} \]</div>
+<p>where <span class="math notranslate nohighlight">\(y = f(g(x))\)</span> and <span class="math notranslate nohighlight">\(z = g(x)\)</span>. In other words, we take the derivative at each step, and multiply them.</p>
+<p>Note that it has been useful here to introduce <span class="math notranslate nohighlight">\(z\)</span> as an intermediary variable in the equation. It’s important to realise the <span class="math notranslate nohighlight">\(z\)</span> ‘joins up’ <span class="math notranslate nohighlight">\(y\)</span> and <span class="math notranslate nohighlight">\(x\)</span>, and hence is the value that appears twice in the equation.</p>
+</section>
+<section id="total-derviative-chain-rule">
+<h2>Total Derviative Chain Rule<a class="headerlink" href="#total-derviative-chain-rule" title="Permalink to this headline">#</a></h2>
+<p>As you’ll soon see later on, when we pass a value <span class="math notranslate nohighlight">\(x\)</span> through a nueral network it isn’t just passed through a single function at a time. Instead, it’s passed through many functions in one go, which are then used to produce a final output.</p>
+<p>This might look something like this:</p>
+<div class="math notranslate nohighlight">
+\[ y = f(x, a(x), b(x), c(x)) \]</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>To give the total derivative chain rule in full form, I’ve included <span class="math notranslate nohighlight">\(x\)</span> as an input to <span class="math notranslate nohighlight">\(f\)</span>. In <em>feedforward</em> neural networks, this won’t be the case: <span class="math notranslate nohighlight">\(x\)</span> will either enter directly or indirectly into the function, but not both. I’ll be showing you what happens to it for the sake of completeness here, but it won’t be used later on.</p>
+</div>
+<p>To begin, let’s set some intermediary values:</p>
+<div class="math notranslate nohighlight">
+\[ z_1 = a(x) \]</div>
+<div class="math notranslate nohighlight">
+\[ z_2 = b(x) \]</div>
+<div class="math notranslate nohighlight">
+\[ z_3 = c(x) \]</div>
+<p>Intuitively, the derivative of <span class="math notranslate nohighlight">\(y\)</span> with respect to <span class="math notranslate nohighlight">\(x\)</span> describes how <span class="math notranslate nohighlight">\(y\)</span> changes as <span class="math notranslate nohighlight">\(x\)</span> changes. In line with this notion, we can just sum the partial derivatives with respect to <span class="math notranslate nohighlight">\(x\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[ \frac{dy}{dx} = \frac{\partial y}{\partial x} \cdot \frac{dx}{dx} + \frac{\partial y}{\partial z_1} \cdot \frac{\partial z_1}{\partial x} + \frac{\partial y}{\partial z_2} \cdot \frac{\partial z_2}{\partial x} + \frac{\partial y}{\partial z_3} \cdot \frac{\partial z_3}{\partial x} \]</div>
+<p>Since the derivative of <span class="math notranslate nohighlight">\(x\)</span> with respect to itself will be 1, this simplifes to:</p>
+<div class="math notranslate nohighlight">
+\[ \frac{dy}{dx} = \frac{\partial y}{\partial x} + \frac{\partial y}{\partial z_1} \cdot \frac{\partial z_1}{\partial x} + \frac{\partial y}{\partial z_2} \cdot \frac{\partial z_2}{\partial x} + \frac{\partial y}{\partial z_3} \cdot \frac{\partial z_3}{\partial x} \]</div>
+<p>And that’s really all there is to the total derivative chain rule! We can write a general form of the total derivative chain rule as:</p>
+<div class="math notranslate nohighlight">
+\[ \frac{dy}{dx} = \frac{\partial y}{\partial x} + \sum_k \frac{\partial y}{\partial z_k} \cdot \frac{\partial z_k}{\partial x} \]</div>
+<p>Which is the form we’ll be using in deriving some equations later on in this document.</p>
 </section>
 </section>
 

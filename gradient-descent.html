@@ -50,9 +50,11 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Vector and Matrix Calculus" href="vector-and-matrix-calculus.html" />
+    <link rel="next" title="Linear Algebra" href="linear-algebra.html" />
     <link rel="prev" title="Neural Networks by Hand" href="intro.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
@@ -122,6 +124,11 @@ const thebe_selector_output = ".output, .cell_output"
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
    Gradient Descent
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="linear-algebra.html">
+   Linear Algebra
   </a>
  </li>
  <li class="toctree-l1">
@@ -362,12 +369,56 @@ title="Print to PDF"
     </ul>
   </div>
 </div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
 
     </div>
 </div>
 
 <!-- Table of contents -->
 <div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#differential-functions-and-local-minimums">
+   Differential Functions and Local Minimums
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#iterative-optimisation">
+   Iterative Optimisation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id1">
+   Gradient Descent
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#an-example">
+   An Example
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#final-comments">
+   Final Comments
+  </a>
+ </li>
+</ul>
+
+    </nav>
 </div>
     </div>
     <div class="article row">
@@ -379,6 +430,39 @@ title="Print to PDF"
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#differential-functions-and-local-minimums">
+   Differential Functions and Local Minimums
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#iterative-optimisation">
+   Iterative Optimisation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id1">
+   Gradient Descent
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#an-example">
+   An Example
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#final-comments">
+   Final Comments
+  </a>
+ </li>
+</ul>
+
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -388,7 +472,170 @@ title="Print to PDF"
                 
   <section class="tex2jax_ignore mathjax_ignore" id="gradient-descent">
 <h1>Gradient Descent<a class="headerlink" href="#gradient-descent" title="Permalink to this headline">#</a></h1>
-<p>Some text on GD</p>
+<p>According to <a class="reference external" href="https://en.wikipedia.org/wiki/Gradient_descent">Wikipedia</a>, Gradient Descent is an <em>iterative optimisation function</em> for finding the <em>local minimum</em> of a <em>differentiable function</em>.</p>
+<p>So what does all that actually mean?</p>
+<section id="differential-functions-and-local-minimums">
+<h2>Differential Functions and Local Minimums<a class="headerlink" href="#differential-functions-and-local-minimums" title="Permalink to this headline">#</a></h2>
+<p>It’s helpful to start at the end. Here, we’re using function in the mathematical sense of the term, which is something that given an input (e.g. a single number), produces an output (e.g. another number).</p>
+<p>For example, we could use</p>
+<div class="math notranslate nohighlight">
+\[ f(x) = x^2 \]</div>
+<p>as our function. Or we could use</p>
+<div class="math notranslate nohighlight">
+\[ g(y) = 5 + 2y^2 \]</div>
+<p>as our function. The first takes an input <span class="math notranslate nohighlight">\(x\)</span>, and squares it. The second takes an input <span class="math notranslate nohighlight">\(y\)</span>, squares it, multiplies the result by two, then adds five to it.</p>
+<p>Formally, a function assigns every element of a set <span class="math notranslate nohighlight">\(X\)</span> to a single output in the set <span class="math notranslate nohighlight">\(Y\)</span>. Once this is set out, <em>differentiable</em> is clear: we can differentiate the function (i.e. establish a formula for the rate of change in the output).</p>
+<p>The <em>minimum</em> of a function is the point at which the output is at its lowest possible value. For <span class="math notranslate nohighlight">\(f(x)\)</span> above, this is 0. For <span class="math notranslate nohighlight">\(g(y)\)</span>, it’s 5.</p>
+</section>
+<section id="iterative-optimisation">
+<h2>Iterative Optimisation<a class="headerlink" href="#iterative-optimisation" title="Permalink to this headline">#</a></h2>
+<p>An <em>optimisation</em> algorithm is one that finds the minimum or maximum of a given function. Sometimes, if a function is not convex, opitmisation algorithms may produce the <em>local</em> minimum or maximum instead of the true minimum or maximum. Often this depends on the starting value provided to the algorithm.</p>
+<p><em>Iterative</em> optimisation is then an algorithm that generates a sequence of improving approximations to the solution, where each iteration depends on the previous iteration.</p>
+</section>
+<section id="id1">
+<h2>Gradient Descent<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h2>
+<p>Gradient descent is an iterative optimisation algorithm. It uses the <em>first derivative</em> to calculate an update for each iteration. Formally, given a function</p>
+<div class="math notranslate nohighlight">
+\[ y = f(x) \]</div>
+<p>the gradient descent update is given by</p>
+<div class="math notranslate nohighlight">
+\[ x = x - \alpha \frac{\delta y}{\delta x} \]</div>
+<p>where <span class="math notranslate nohighlight">\(\alpha\)</span> is a <em>learning rate</em> hyperparameter and <span class="math notranslate nohighlight">\(\frac{\delta y}{\delta x}\)</span> is the derivative of <span class="math notranslate nohighlight">\(x\)</span> with respect to <span class="math notranslate nohighlight">\(y\)</span>.</p>
+<p>When implementing Gradient Descent in practice, we also need two extra things. First, we want to set a <em>maximum number of iterations</em>. This is because without a maximum number gradient descent can just keep going and going. Second, we want to add a <em>break condition</em>. Eventually the changes will get so small as to be meaningless - so at this point we might as well stop instead of reaching the maximum number of iterations.</p>
+<p>With all of this set out, we can now write our gradient descent algorithm:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="k">def</span> <span class="nf">gd</span><span class="p">(</span>
+    <span class="n">gradient_function</span><span class="p">:</span> <span class="n">callable</span><span class="p">,</span>
+    <span class="n">start</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">learn_rate</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">max_iter</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="n">tol</span><span class="p">:</span> <span class="nb">float</span><span class="o">=</span><span class="mf">0.01</span>
+    <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A simple implementation of gradient descent to optimise single-parameter functions</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        gradient_function: Callable for the gradient of the function being optimised</span>
+<span class="sd">        start: Starting value to optimise from</span>
+<span class="sd">        learn_rate: Learning rate for the update</span>
+<span class="sd">        max_iter: Maximum number of iterations</span>
+<span class="sd">        tol: Break clause for the gradient descent</span>
+
+<span class="sd">    Returns: a dictionary containing the following:</span>
+<span class="sd">        minimum: The estimated value at which the minimum of the function is found</span>
+<span class="sd">        steps: Each step in estimating the minimum</span>
+<span class="sd">        num_iter: The number of iterations</span>
+<span class="sd">        final_diff: The final difference in estimated values</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">steps</span> <span class="o">=</span> <span class="p">[</span><span class="n">start</span><span class="p">]</span> <span class="c1">#tracking our steps</span>
+    <span class="n">minimum</span> <span class="o">=</span> <span class="n">start</span>
+    
+    <span class="nb">iter</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">diff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">Inf</span>
+    <span class="k">while</span> <span class="nb">iter</span> <span class="o">&lt;</span> <span class="n">max_iter</span> <span class="ow">and</span> <span class="n">diff</span> <span class="o">&gt;</span> <span class="n">tol</span><span class="p">:</span>
+        
+        <span class="c1"># Update</span>
+        <span class="n">minimum</span> <span class="o">=</span> <span class="n">minimum</span> <span class="o">-</span> <span class="n">learn_rate</span> <span class="o">*</span> <span class="n">gradient_function</span><span class="p">(</span><span class="n">minimum</span><span class="p">)</span>
+        
+        <span class="c1"># Store, increment, check diff</span>
+        <span class="n">steps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">minimum</span><span class="p">)</span>
+        <span class="nb">iter</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">diff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">steps</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">steps</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">minimum</span><span class="p">)</span>
+  
+    <span class="c1"># Store output</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;minimum&quot;</span><span class="p">:</span> <span class="n">minimum</span><span class="p">,</span>
+        <span class="s2">&quot;steps&quot;</span><span class="p">:</span> <span class="n">steps</span><span class="p">,</span>
+        <span class="s2">&quot;num_iter&quot;</span><span class="p">:</span> <span class="nb">iter</span><span class="p">,</span>
+        <span class="s2">&quot;final_diff&quot;</span><span class="p">:</span> <span class="n">diff</span>
+    <span class="p">}</span>
+    
+    <span class="k">return</span> <span class="n">out</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="an-example">
+<h2>An Example<a class="headerlink" href="#an-example" title="Permalink to this headline">#</a></h2>
+<p>To see Gradient Descent in practice, let’s consider the example of the following quadratic function:</p>
+<div class="math notranslate nohighlight">
+\[ x^2 - 4x + 1 \]</div>
+<p>It’s helpful to see a plot of what this function looks like:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># The function we&#39;re considering</span>
+<span class="k">def</span> <span class="nf">quadratic</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">4</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+
+<span class="c1"># 100 linearly spaced numbers</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+
+<span class="c1"># apply the function</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">quadratic</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="c1"># setting the axes at the centre</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;left&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_position</span><span class="p">(</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;bottom&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_position</span><span class="p">(</span><span class="s1">&#39;zero&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;right&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="s1">&#39;none&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;top&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="s1">&#39;none&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_ticks_position</span><span class="p">(</span><span class="s1">&#39;bottom&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_ticks_position</span><span class="p">(</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
+
+<span class="c1"># plot the function</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+
+<span class="c1"># show the plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/gradient-descent_6_0.png" src="_images/gradient-descent_6_0.png" />
+</div>
+</div>
+<p>By the looks of things, the minimum of this function is around two (it won’t always be so easy though!).</p>
+<p>The derivative of this function is given by</p>
+<div class="math notranslate nohighlight">
+\[ 2x - 4 \]</div>
+<p>So, let’s find the minumum of this function by using our gradient descent algorithm from above:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">quadratic_gradient</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">2</span><span class="o">*</span><span class="n">x</span> <span class="o">-</span> <span class="mi">4</span>
+
+<span class="n">est</span> <span class="o">=</span> <span class="n">gd</span><span class="p">(</span><span class="n">quadratic_gradient</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">learn_rate</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">est</span><span class="p">[</span><span class="s2">&quot;minimum&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2.0
+</pre></div>
+</div>
+</div>
+</div>
+<p>It worked!</p>
+</section>
+<section id="final-comments">
+<h2>Final Comments<a class="headerlink" href="#final-comments" title="Permalink to this headline">#</a></h2>
+<p>The example above is nice for illustrating gradient descent, both because it has a single variable and because it has an obvious minimum that allows us to verify that gradient descent is doing what it’s supposed to be doing.</p>
+<p>It’s worth stopping for a moment though to consider some more complicated cases.</p>
+<p>First, let’s consider the case where we have a function of many variables, say</p>
+<div class="math notranslate nohighlight">
+\[ y = f(x,u,v) \]</div>
+<p>In this case, the gradient descent update for a parameter <span class="math notranslate nohighlight">\(x\)</span> is based on the <em>partial derivative</em> of <span class="math notranslate nohighlight">\(y\)</span> with respect to <span class="math notranslate nohighlight">\(x\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[ x = x - \alpha \frac{\partial y}{\partial x} \]</div>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -425,10 +672,10 @@ title="Print to PDF"
             <p class="prev-next-title">Neural Networks by Hand</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="vector-and-matrix-calculus.html" title="next page">
+    <a class='right-next' id="next-link" href="linear-algebra.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Vector and Matrix Calculus</p>
+        <p class="prev-next-title">Linear Algebra</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>

@@ -55,7 +55,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="The Chain Rule" href="chain-rule.html" />
-    <link rel="prev" title="Gradient Descent" href="gradient-descent.html" />
+    <link rel="prev" title="Linear Algebra" href="linear-algebra.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -124,6 +124,11 @@ const thebe_selector_output = ".output, .cell_output"
  <li class="toctree-l1">
   <a class="reference internal" href="gradient-descent.html">
    Gradient Descent
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="linear-algebra.html">
+   Linear Algebra
   </a>
  </li>
  <li class="toctree-l1 current active">
@@ -231,35 +236,6 @@ title="Toggle navigation"
         
     </div>
     <div class="header-article__right">
-<div class="menu-dropdown menu-dropdown-launch-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Launch interactive content">
-      <i class="fas fa-rocket"></i>
-  </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="https://mybinder.org/v2/gh/philswatton/neural-networks-by-hand/gh-pages?urlpath=tree/vector-and-matrix-calculus.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Launch on Binder"
->
-  
-
-<span class="headerbtn__icon-container">
-  
-    <img src="_static/images/logo_binder.svg">
-  </span>
-<span class="headerbtn__text-container">Binder</span>
-</a>
-
-      </li>
-      
-    </ul>
-  </div>
-</div>
-
 <button onclick="toggleFullScreen()"
   class="headerbtn"
   data-toggle="tooltip"
@@ -327,7 +303,7 @@ title="Open an issue"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="_sources/vector-and-matrix-calculus.ipynb"
+        <a href="_sources/vector-and-matrix-calculus.md"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -338,7 +314,7 @@ title="Download source file"
 <span class="headerbtn__icon-container">
   <i class="fas fa-file"></i>
   </span>
-<span class="headerbtn__text-container">.ipynb</span>
+<span class="headerbtn__text-container">.md</span>
 </a>
 
       </li>
@@ -407,6 +383,11 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#some-rules-of-thumb">
+   Some Rules of Thumb
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#a-note-on-jacobians">
    A Note on Jacobians
   </a>
@@ -451,6 +432,11 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#some-rules-of-thumb">
+   Some Rules of Thumb
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#a-note-on-jacobians">
    A Note on Jacobians
   </a>
@@ -467,6 +453,8 @@ title="Print to PDF"
                 
   <section class="tex2jax_ignore mathjax_ignore" id="vector-and-matrix-calculus">
 <h1>Vector and Matrix Calculus<a class="headerlink" href="#vector-and-matrix-calculus" title="Permalink to this headline">#</a></h1>
+<p>Since we need derivatives for gradient descent, and since we’re representing our neural network in matrix form, we’re going to need some extra rules of calculus above and beyond those used for scalar calculus.</p>
+<p>Foruntately, just as vectors matrices are a way of organising numbers and equations, so too is vector and matrix calculus a way of organising derivatives (amongst other things). It’s good however to be aware of the way in which we’d expect our derivatives to be organised, as this will be a useful reference point down the line.</p>
 <section id="motivation-partial-derivatives">
 <h2>Motivation: Partial Derivatives<a class="headerlink" href="#motivation-partial-derivatives" title="Permalink to this headline">#</a></h2>
 <p>Consider a function <span class="math notranslate nohighlight">\(f\)</span> with two input variables, <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(z\)</span>:</p>
@@ -480,7 +468,7 @@ title="Print to PDF"
 \[ \frac{\partial f(x,z)}{\partial z} = 3x^2 \]</div>
 <p>If we wish to organise our partial derivatives, we can store them in a vector, which we call the <strong>gradient</strong> of <span class="math notranslate nohighlight">\(f(x,z)\)</span>:</p>
 <div class="math notranslate nohighlight">
-\[\begin{split} \Delta f(x,z) = \begin{bmatrix} 6xz \\ 3x^2 \end{bmatrix} \end{split}\]</div>
+\[\begin{split} \nabla f(x,z) = \begin{bmatrix} 6xz \\ 3x^2 \end{bmatrix} \end{split}\]</div>
 <p>In general, we can move the use of vectors (and matrices) when we wish to start organising our derivatives in this fashion. In this light, vector and matrix calculus represent a notational system for <strong>multivariable calculus</strong>.</p>
 </section>
 <section id="generalising-the-gradient">
@@ -497,11 +485,11 @@ title="Print to PDF"
 \[ g(x,z) = 2x + y^8 \]</div>
 <p>As before, we store the partial derivatives of <span class="math notranslate nohighlight">\(g(x,z)\)</span> in a vector:</p>
 <div class="math notranslate nohighlight">
-\[\begin{split} \Delta g(x,z) = \begin{bmatrix} \frac{\partial g(x,z)}{\partial x} \\ \frac{\partial g(x,z)}{\partial z} \end{bmatrix} \end{split}\]</div>
+\[\begin{split} \nabla g(x,z) = \begin{bmatrix} \frac{\partial g(x,z)}{\partial x} \\ \frac{\partial g(x,z)}{\partial z} \end{bmatrix} \end{split}\]</div>
 <p>However, in combination with <span class="math notranslate nohighlight">\(f(x,z)\)</span> we now have two vectors of partial derivatives. If we store <span class="math notranslate nohighlight">\(f(x,z)\)</span> in a vector with <span class="math notranslate nohighlight">\(g(x,z)\)</span>, then take the derivative of this vector with respect to the vector storing <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(z\)</span>, we obtain a matrix <span class="math notranslate nohighlight">\(\boldsymbol{J}\)</span>:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
-\boldsymbol{J} = \begin{bmatrix} \Delta f(x,z) \\ \Delta g(x,z) \end{bmatrix} = \begin{bmatrix} \frac{\delta f(x,z)}{\delta x} &amp; \frac{\delta f(x,z)}{\delta z} \\ \frac{\delta g(x,z)}{\delta x} &amp; \frac{\delta g(x,z)}{\delta z} \end{bmatrix} = \begin{bmatrix} 6xz &amp; 3x^2 \\ 2 &amp; 8z^7 \end{bmatrix}
+\boldsymbol{J} = \begin{bmatrix} \nabla f(x,z) \\ \nabla g(x,z) \end{bmatrix} = \begin{bmatrix} \frac{\partial f(x,z)}{\partial x} &amp; \frac{\partial f(x,z)}{\partial z} \\ \frac{\partial g(x,z)}{\partial x} &amp; \frac{\partial g(x,z)}{\partial z} \end{bmatrix} = \begin{bmatrix} 6xz &amp; 3x^2 \\ 2 &amp; 8z^7 \end{bmatrix}
 \end{split}\]</div>
 <p>This matrix is known as the <strong>Jacobian</strong>.</p>
 <p>Note that here, the Jacobian is presented in the <em>numerator layout</em> (i.e numerator on rows). However, in some contexts it will be presented in <em>denominator layout</em>.</p>
@@ -511,8 +499,18 @@ title="Print to PDF"
 <p>As before, we can generalise the notion of deriving a vector with respect to a vector beyond the simple example.</p>
 <p>Suppose we have an <span class="math notranslate nohighlight">\(n\)</span>-length vector of functions <span class="math notranslate nohighlight">\(\boldsymbol{f}\)</span>, and an <span class="math notranslate nohighlight">\(m\)</span>-length vector of variables <span class="math notranslate nohighlight">\(\boldsymbol{x}\)</span>. The derivative of <span class="math notranslate nohighlight">\(\boldsymbol{f}\)</span> with respect to <span class="math notranslate nohighlight">\(\boldsymbol{x}\)</span> is then:</p>
 <div class="math notranslate nohighlight">
-\[\begin{split} \boldsymbol{J} = \begin{bmatrix} \frac{\partial \boldsymbol{f}}{\partial x_1} &amp; \cdots &amp; \frac{\partial \boldsymbol{f}}{\partial x_n} \end{bmatrix} = \begin{bmatrix} \Delta^T f_1 \\ \vdots \\ \Delta^T f_m \end{bmatrix} = \begin{bmatrix} \frac{\partial f_1}{\partial x_1} &amp; \cdots &amp; \frac{\partial f_1}{\partial x_n} \\ \vdots &amp; \ddots &amp; \vdots \\ \frac{\partial f_m}{\partial x_1} &amp; \cdots &amp; \frac{\partial f_m}{\partial x_n} \end{bmatrix}  \end{split}\]</div>
+\[\begin{split} \boldsymbol{J} = \begin{bmatrix} \frac{\partial \boldsymbol{f}}{\partial x_1} &amp; \cdots &amp; \frac{\partial \boldsymbol{f}}{\partial x_n} \end{bmatrix} = \begin{bmatrix} \nabla^T f_1 \\ \vdots \\ \nabla^T f_m \end{bmatrix} = \begin{bmatrix} \frac{\partial f_1}{\partial x_1} &amp; \cdots &amp; \frac{\partial f_1}{\partial x_n} \\ \vdots &amp; \ddots &amp; \vdots \\ \frac{\partial f_m}{\partial x_1} &amp; \cdots &amp; \frac{\partial f_m}{\partial x_n} \end{bmatrix}  \end{split}\]</div>
 <p>Where <span class="math notranslate nohighlight">\(\boldsymbol{J}\)</span> is an <span class="math notranslate nohighlight">\(m \times n\)</span> matrix, and <span class="math notranslate nohighlight">\(\Delta^T f_m\)</span> is the transpose (i.e. row vector) of the gradient of <span class="math notranslate nohighlight">\(f_m\)</span>.</p>
+</section>
+<section id="some-rules-of-thumb">
+<h2>Some Rules of Thumb<a class="headerlink" href="#some-rules-of-thumb" title="Permalink to this headline">#</a></h2>
+<p>There’s a pattern slowly emerging here:</p>
+<ul class="simple">
+<li><p>The derivative of a scalar with respect to a vector is a vector of the same size</p></li>
+<li><p>The derviatve of a vector of length <span class="math notranslate nohighlight">\(n\)</span> with respect to a vector of length <span class="math notranslate nohighlight">\(m\)</span> is a matrix of size <span class="math notranslate nohighlight">\(m \times n\)</span></p></li>
+<li><p>The derivative of a scalar with respect to an <span class="math notranslate nohighlight">\(m \times n\)</span> matrix is another <span class="math notranslate nohighlight">\(m \times n\)</span> matrix</p></li>
+</ul>
+<p>And so on. This is useful to have in mind: one simple way to check a solution to a problem is to see if these rules are satisfied. The pattern still holds for e.g. the derviative of a vector with respect to a matrix - the output for this is a tensor, which is a multidimensional generalisation of matrices. That’s beyond this notebook though!</p>
 </section>
 <section id="a-note-on-jacobians">
 <h2>A Note on Jacobians<a class="headerlink" href="#a-note-on-jacobians" title="Permalink to this headline">#</a></h2>
@@ -531,6 +529,8 @@ title="Print to PDF"
 \[ \frac{\partial y_i}{\partial w_j} f_i(\boldsymbol{w}) \bigcirc g_i(\boldsymbol{x}) = 0 \]</div>
 <p><span class="math notranslate nohighlight">\(f_i\)</span> and <span class="math notranslate nohighlight">\(g_i\)</span> will be constant with respect to <span class="math notranslate nohighlight">\(w_j\)</span>, <span class="math notranslate nohighlight">\(i \neq j\)</span> when <span class="math notranslate nohighlight">\( \bigcirc \)</span> represents an <em>element-wise</em> binary operation.</p>
 <p>An element-wise binary operation occurs when <span class="math notranslate nohighlight">\(f_i\)</span> is solely a function of <span class="math notranslate nohighlight">\(w_i\)</span> and <span class="math notranslate nohighlight">\(g_i\)</span> is solely a function of <span class="math notranslate nohighlight">\(x_i\)</span>. Some examples include vector addition, vector subtraction, element-wise multiplication of vectors, and element-wise division of vectors.</p>
+<!-- This becomes useful because when we multiply a vector by a diagonal matrix, it's the equivalent of just performing element-wise multiplication between the vector and the diagonal (i.e. the output is a vector where the first element is the first element of the original times the first element of the diagonal, etc). This is a much simpler computation than when the matrix is not diagonal!  -->
+<!-- ^ This is wrong: need to fix -->
 </section>
 </section>
 
@@ -561,11 +561,11 @@ title="Print to PDF"
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="gradient-descent.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="linear-algebra.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Gradient Descent</p>
+            <p class="prev-next-title">Linear Algebra</p>
         </div>
     </a>
     <a class='right-next' id="next-link" href="chain-rule.html" title="next page">

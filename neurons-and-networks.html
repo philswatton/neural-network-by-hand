@@ -50,6 +50,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Backward Propagation" href="back-propagation.html" />
@@ -122,6 +124,11 @@ const thebe_selector_output = ".output, .cell_output"
  <li class="toctree-l1">
   <a class="reference internal" href="gradient-descent.html">
    Gradient Descent
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="linear-algebra.html">
+   Linear Algebra
   </a>
  </li>
  <li class="toctree-l1">
@@ -229,35 +236,6 @@ title="Toggle navigation"
         
     </div>
     <div class="header-article__right">
-<div class="menu-dropdown menu-dropdown-launch-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Launch interactive content">
-      <i class="fas fa-rocket"></i>
-  </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="https://mybinder.org/v2/gh/philswatton/neural-networks-by-hand/gh-pages?urlpath=tree/neurons-and-networks.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Launch on Binder"
->
-  
-
-<span class="headerbtn__icon-container">
-  
-    <img src="_static/images/logo_binder.svg">
-  </span>
-<span class="headerbtn__text-container">Binder</span>
-</a>
-
-      </li>
-      
-    </ul>
-  </div>
-</div>
-
 <button onclick="toggleFullScreen()"
   class="headerbtn"
   data-toggle="tooltip"
@@ -325,7 +303,7 @@ title="Open an issue"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="_sources/neurons-and-networks.ipynb"
+        <a href="_sources/neurons-and-networks.md"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -336,7 +314,7 @@ title="Download source file"
 <span class="headerbtn__icon-container">
   <i class="fas fa-file"></i>
   </span>
-<span class="headerbtn__text-container">.ipynb</span>
+<span class="headerbtn__text-container">.md</span>
 </a>
 
       </li>
@@ -362,12 +340,73 @@ title="Print to PDF"
     </ul>
   </div>
 </div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
 
     </div>
 </div>
 
 <!-- Table of contents -->
 <div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#a-single-neuron">
+   A Single Neuron
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#in-this-node">
+     In this node
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#generalising-to-all-nodes-in-a-layer">
+     Generalising to all nodes in a layer
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#biases">
+     Biases
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#activation">
+     Activation
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#formulas-for-the-first-hidden-layer">
+     Formulas for the First Hidden Layer
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#many-hidden-layers">
+   Many Hidden Layers
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#networks-are-composed-functions">
+   Networks are Composed Functions
+  </a>
+ </li>
+</ul>
+
+    </nav>
 </div>
     </div>
     <div class="article row">
@@ -379,6 +418,56 @@ title="Print to PDF"
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#a-single-neuron">
+   A Single Neuron
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#in-this-node">
+     In this node
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#generalising-to-all-nodes-in-a-layer">
+     Generalising to all nodes in a layer
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#biases">
+     Biases
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#activation">
+     Activation
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#formulas-for-the-first-hidden-layer">
+     Formulas for the First Hidden Layer
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#many-hidden-layers">
+   Many Hidden Layers
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#networks-are-composed-functions">
+   Networks are Composed Functions
+  </a>
+ </li>
+</ul>
+
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -388,13 +477,115 @@ title="Print to PDF"
                 
   <section class="tex2jax_ignore mathjax_ignore" id="neurons-and-networks">
 <h1>Neurons and Networks<a class="headerlink" href="#neurons-and-networks" title="Permalink to this headline">#</a></h1>
-<p>TODO:</p>
-<ul class="simple">
-<li><p>What is a neuron</p></li>
-<li><p>What are the components of a neuron</p></li>
-<li><p>How do we put them together</p></li>
-<li><p>Forward propagation and how it’s used to estimate the output</p></li>
-</ul>
+<p>With the pre-requisite math established, we can now start considering the question: what actually is a ‘neural network’ anyway? If you’re reading this page, there’s a good chance you’ve seen a diagram that looks something like this:</p>
+<figure class="align-default" id="neural-network-fig">
+<img alt="A neural network with three inputs, two hidden layers with four nodes each, and a single output node" class="bg-primary mb-1" src="_images/network-diagram.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 1 </span><span class="caption-text">A neural network with three inputs, two hidden layers with four nodes each, and a single output node</span><a class="headerlink" href="#neural-network-fig" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>But what is this diagram actually showing us?</p>
+<section id="a-single-neuron">
+<h2>A Single Neuron<a class="headerlink" href="#a-single-neuron" title="Permalink to this headline">#</a></h2>
+<p>Before considering a whole neural network, it’s worth looking at a single <em>node</em> in the network. Looking at the above plot, a neuron is simply a single node in the <em>hidden</em> or <em>output</em> <em>layers</em> in the plot (more on these later). In particular, we’re going to consider the first neuron from the first hidden layer:</p>
+<figure class="align-default" id="single-neuron-fig">
+<img alt="A single neuron with three inputs" class="bg-primary mb-1" src="_images/neuron-diagram.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 2 </span><span class="caption-text">A single neuron with three inputs</span><a class="headerlink" href="#single-neuron-fig" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>For simplicity, we’ll consider what happens to a single <em>training example</em> (observation) with <em>features</em> (variables) <span class="math notranslate nohighlight">\(\boldsymbol{X} = [X_1, X_2, X_3]\)</span> and output <span class="math notranslate nohighlight">\(Y\)</span>.</p>
+<p>The first thing to notice is that here we’ve split the neuron into two, whereas in the first diagram neurons were comprised of a single node. This representation is somewhat more accurate to what’s going on, but the first diagram is useful for showing things at a higher level.</p>
+<section id="in-this-node">
+<h3>In this node<a class="headerlink" href="#in-this-node" title="Permalink to this headline">#</a></h3>
+<p>To break this down step-by-step, <span class="math notranslate nohighlight">\(X_1\)</span>, <span class="math notranslate nohighlight">\(X_2\)</span>, and <span class="math notranslate nohighlight">\(X_3\)</span> are scalars that go in, something happens and we get <span class="math notranslate nohighlight">\(z_1^{(1)}\)</span>. Then, this is passed on to <span class="math notranslate nohighlight">\(\sigma()\)</span>, <span class="math notranslate nohighlight">\(a_1^{(1)}\)</span> is a scalar output, and this output is the output of the node..</p>
+<p>Let’s start at ‘something happens’ Each of the inputs to the node is mupltiplied by a weight: <span class="math notranslate nohighlight">\(w_{11}^{(1)}\)</span> for <span class="math notranslate nohighlight">\(X_1\)</span>, <span class="math notranslate nohighlight">\(w_{12}^{(1)}\)</span> for <span class="math notranslate nohighlight">\(X_2\)</span>, and <span class="math notranslate nohighlight">\(w_{13}^{(1)}\)</span> for <span class="math notranslate nohighlight">\(X_3\)</span>. The results of these multiplications are then summed to make <span class="math notranslate nohighlight">\(z^{(1)}_1\)</span>.</p>
+</section>
+<section id="generalising-to-all-nodes-in-a-layer">
+<h3>Generalising to all nodes in a layer<a class="headerlink" href="#generalising-to-all-nodes-in-a-layer" title="Permalink to this headline">#</a></h3>
+<p>A general formulation of this is <span class="math notranslate nohighlight">\(w^{(l)}_{ji}\)</span>. Here, the subscript I’m using for each <span class="math notranslate nohighlight">\(w\)</span> denotes the input node (<span class="math notranslate nohighlight">\(i\)</span>, second number) and output node (<span class="math notranslate nohighlight">\(j\)</span>, first number). The superscript <span class="math notranslate nohighlight">\((l)\)</span> denotes which layer the weight belongs to. The sum can be expressed as:</p>
+<div class="math notranslate nohighlight">
+\[ z^{(l)}_j = \sum_k w_{jk}^{(l)} x_k \]</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>I’m not bothering to index this by training example (althought strictly speaking we should) largely for the sake of simplicitly. Note that this will be true in some other equations on this page too. In general, individual elements such as <span class="math notranslate nohighlight">\(z^{(l)}_j\)</span>, <span class="math notranslate nohighlight">\(a^{(l)}_j\)</span>, and <span class="math notranslate nohighlight">\(x_k\)</span> exist per training example and would be indexed by this if I was marginally less lazy as a person.</p>
+</div>
+<p>This sum of multiplications is of course a dot product. We can therefore use matrix notation to organise all of the summed multiplications we need to do. This allows us to represent all of the equations for neurons and training examples in the input layer in a single, concise formula:</p>
+<div class="math notranslate nohighlight">
+\[ \boldsymbol{Z}^{(l)} = \boldsymbol{W}^{(l)}\boldsymbol{X'} \]</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>A quick note for people used to social scientific notational conventions: <span class="math notranslate nohighlight">\(\boldsymbol{X}\)</span> has been transposed such that it is a column vector where each element is a <em>feature</em> (or variable, in statistical parlance). If it became a matrix, each row would be a feature and each column a <em>training example</em> (observation).</p>
+<p>This is different from a more typical representation found in statistics, but is at least semi-common in the deep learning world. I use this format here due to the fact this is the most common format in the documents I have learned from, but it’s worth noting as this is not necessarily usual. More on dimensions below.</p>
+<p><span class="math notranslate nohighlight">\(\boldsymbol{X}\)</span> won’t always be presented with the <span class="math notranslate nohighlight">\('\)</span> symbol in all documents, but I’ve kept it on this page just to make this clear as it is fairly unusual.</p>
+</div>
+</section>
+<section id="biases">
+<h3>Biases<a class="headerlink" href="#biases" title="Permalink to this headline">#</a></h3>
+<p>We also usually add a <em>bias</em> (intercept) <span class="math notranslate nohighlight">\(b^{(l)}_{j}\)</span> (i.e. intercept) to this equation for each node:</p>
+<div class="math notranslate nohighlight">
+\[ z^{(l)}_j = \sum_k w_{jk}^{(l)} x_k + b_j^{(l)} \]</div>
+<p>Which in matrix form for all nodes and observations becomes (note the use of broadcasting here):</p>
+<div class="math notranslate nohighlight">
+\[ \boldsymbol{Z}^{(l)} = \boldsymbol{W}^{(l)}\boldsymbol{X'} + \boldsymbol{b}^{(l)} \]</div>
+</section>
+<section id="activation">
+<h3>Activation<a class="headerlink" href="#activation" title="Permalink to this headline">#</a></h3>
+<p>To get <span class="math notranslate nohighlight">\(a_1^{(1)}\)</span> from <span class="math notranslate nohighlight">\(z_1^{(1)}\)</span>, we apply an <em>activation function</em> <span class="math notranslate nohighlight">\(f(x)\)</span>. Don’t worry too much about the choice of function for now: there are many valid choices. The important think to note is that this function will take the weighted input <span class="math notranslate nohighlight">\(Z\)</span>, and transform it in some way:</p>
+<div class="math notranslate nohighlight">
+\[ a_1^{(1)} = f(z_1^{(1)}) = f \left( \sum_k w_{jk}^{(l)} x_k + b_j^{(l)} \right) \]</div>
+<p>The neuron then provides <span class="math notranslate nohighlight">\(a_1^{(1)}\)</span> as its output.</p>
+<p>We can generalise this as:</p>
+<div class="math notranslate nohighlight">
+\[ \boldsymbol{A}^{(l)} = f(\boldsymbol{Z}^{(l)}) = f(\boldsymbol{W}^{(l)}\boldsymbol{X'} + \boldsymbol{b}^{(l)}) \]</div>
+</section>
+<section id="formulas-for-the-first-hidden-layer">
+<h3>Formulas for the First Hidden Layer<a class="headerlink" href="#formulas-for-the-first-hidden-layer" title="Permalink to this headline">#</a></h3>
+<p>We therefore have clear formulas for the first hidden layer</p>
+<div class="math notranslate nohighlight">
+\[ \boldsymbol{Z}^{(1)} = \boldsymbol{W}^{(1)}\boldsymbol{X'} + \boldsymbol{b}^{(1)} \]</div>
+<div class="math notranslate nohighlight">
+\[ \boldsymbol{A}^{(1)} = f(\boldsymbol{Z}^{(1)}) \]</div>
+</section>
+</section>
+<section id="many-hidden-layers">
+<h2>Many Hidden Layers<a class="headerlink" href="#many-hidden-layers" title="Permalink to this headline">#</a></h2>
+<p>So far, I’ve only considered the first ‘hidden layer’. We can add an arbitary number of layers with an arbitary number of nodes. Each layer takes the previous layers’ nodes as input, multiples them by a matrix of weights, passes them through an activation function, then provides the result as its output.</p>
+<p>This also applies to the ‘output layer’: here the number of nodes corresponds to the number of outputs (i.e. one for predicting continous variables or binary classification, many for multi-class and multi-label classification). The only extension is that we’ll also need an output activation function <span class="math notranslate nohighlight">\(g(x)\)</span>, which may or may not be different to the hidden layer activation function.</p>
+<p>So, the weighted input and activation for layer <span class="math notranslate nohighlight">\(l\)</span> in an <span class="math notranslate nohighlight">\(L\)</span>-layer (i.e. <span class="math notranslate nohighlight">\(L-1\)</span> hidden layers, and an <span class="math notranslate nohighlight">\(L\)</span>th output layer) neural network is given by:</p>
+<div class="math notranslate nohighlight">
+\[ \boldsymbol{Z}^{(l)} = \boldsymbol{W}^{(l)}\boldsymbol{A}^{(l-1)}  + \boldsymbol{b}^{(l)} \]</div>
+<div class="math notranslate nohighlight">
+\[ \boldsymbol{A}^{(l)} = f(\boldsymbol{Z}^{(l)}) \]</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>It’s often helpful to pay attention to dimensions.</p>
+<p><span class="math notranslate nohighlight">\(\boldsymbol{W}^{(l)}\)</span> has <span class="math notranslate nohighlight">\(n^{(l)} \times n^{(l-1)}\)</span> elements, where <span class="math notranslate nohighlight">\(n^{(l)}\)</span> is the number of nodes in layer <span class="math notranslate nohighlight">\(l\)</span>.</p>
+<p><span class="math notranslate nohighlight">\(\boldsymbol{b}^{(l)}\)</span> has <span class="math notranslate nohighlight">\(n^{(l)} \times 1\)</span> elements.</p>
+<p><span class="math notranslate nohighlight">\(\boldsymbol{A}^{(l)}\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol{Z}^{(l)}\)</span> will have <span class="math notranslate nohighlight">\(n^{(l)} \times m\)</span> elements, where <span class="math notranslate nohighlight">\(m\)</span> is the number of training examples/observations.</p>
+<p>A quick sanity check worth performing whenever building a neural network (or any other model that uses matrices) is to check what the dimensions of the outputs should be.</p>
+</div>
+<p>Just don’t forget that for <span class="math notranslate nohighlight">\(l=1\)</span>, instead of multiplying by <span class="math notranslate nohighlight">\(\boldsymbol{a}^{(l-1)}\)</span> we’ll be multiplying by <span class="math notranslate nohighlight">\(\boldsymbol{X'}\)</span>. Finally, since the output layer has its own activation function:</p>
+<div class="math notranslate nohighlight">
+\[ \boldsymbol{Z}^{(L)} = \boldsymbol{W}^{(L)}\boldsymbol{Z}^{(L-1)}  + \boldsymbol{b}^{(L)} \]</div>
+<div class="math notranslate nohighlight">
+\[ \boldsymbol{A}^{(L)} = g(\boldsymbol{Z}^{(L)}) \]</div>
+</section>
+<section id="networks-are-composed-functions">
+<h2>Networks are Composed Functions<a class="headerlink" href="#networks-are-composed-functions" title="Permalink to this headline">#</a></h2>
+<p>So: a neural network takes several input features (or variables, if you prefer). It multiplies that input by a matrix of weights, passes the results through an element-wise activation function, then repeats that process for each layer until it produces an output.</p>
+<p>The output activation function will usually be chosen based on the nature of the output(s) - more on this later.</p>
+<p>Temporarily and for simplicity, let’s imagine that <span class="math notranslate nohighlight">\(f(x)\)</span> and <span class="math notranslate nohighlight">\(g(x)\)</span> combine the multiplication and activation steps:</p>
+<div class="math notranslate nohighlight">
+\[ f(\boldsymbol{X'}) = f(\boldsymbol{W}\boldsymbol{X'} + \boldsymbol{b}) \]</div>
+<p>It’s easy to see that a neural network as described so far is really just a series of composed functions. For example, for the network diagram above:</p>
+<div class="math notranslate nohighlight">
+\[ nn(\boldsymbol{X'}) = g(f^{(2)}(f^{(1)}(\boldsymbol{X'}))) \]</div>
+<p>Calculating the full output in this way is caled a <em>forward pass</em> or <em>forward propagation</em>.</p>
+<p>It’s worth noting that the kind of network described here is a <em>feedforward neural network</em>. This is because we pass all the nodes from one layer to the next layer. Different network <em>architectures</em> may pass the nodes on in different ways. Recurrent neural networks for instance have layers take inputs from nodes further up the network.</p>
+<p>Hopefully, this also makes the reason for a lot of the prequisites clear. We want to estimate this network as a function of its error (more on specific choices of error function later). This error is a function of the weights <span class="math notranslate nohighlight">\(\boldsymbol{W}^{(l)}\)</span> and biases <span class="math notranslate nohighlight">\(\boldsymbol{b}^{(l)}\)</span>.</p>
+<p>Gradient descent is a good option for finding the minimum of a function (and we want to find the minimum of the error function). So we need to find the derivatives of the error function for the network with respect to <span class="math notranslate nohighlight">\(\boldsymbol{W}^{(l)}\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol{b}^{(l)}\)</span>. And for that we need vector calculus and the chain rule.</p>
+</section>
 </section>
 
     <script type="text/x-thebe-config">

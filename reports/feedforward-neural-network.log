@@ -35,7 +35,7 @@ Here is a preview of the cell contents:
 np.random.seed(3298)
 _, _, pred_func = fnn(X=train_X,
                       Y=train_Y_oh,
-                      hidden=[32],
+                      hidden=[20,10],
                       learn_rate=0.9,
                       hidden_activation="sigmoid",
                       output_activation="softmax",

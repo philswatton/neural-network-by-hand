@@ -50,6 +50,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Softmax and Cross-Entropy" href="softmax.html" />
@@ -122,6 +124,11 @@ const thebe_selector_output = ".output, .cell_output"
  <li class="toctree-l1">
   <a class="reference internal" href="gradient-descent.html">
    Gradient Descent
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="linear-algebra.html">
+   Linear Algebra
   </a>
  </li>
  <li class="toctree-l1">
@@ -296,7 +303,7 @@ title="Open an issue"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="_sources/cost-functions.ipynb"
+        <a href="_sources/cost-functions.md"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -307,7 +314,7 @@ title="Download source file"
 <span class="headerbtn__icon-container">
   <i class="fas fa-file"></i>
   </span>
-<span class="headerbtn__text-container">.ipynb</span>
+<span class="headerbtn__text-container">.md</span>
 </a>
 
       </li>
@@ -333,12 +340,41 @@ title="Print to PDF"
     </ul>
   </div>
 </div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
 
     </div>
 </div>
 
 <!-- Table of contents -->
 <div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#mse">
+   MSE
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#binary-cross-entropy">
+   Binary Cross-Entropy
+  </a>
+ </li>
+</ul>
+
+    </nav>
 </div>
     </div>
     <div class="article row">
@@ -350,6 +386,24 @@ title="Print to PDF"
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#mse">
+   MSE
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#binary-cross-entropy">
+   Binary Cross-Entropy
+  </a>
+ </li>
+</ul>
+
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -359,11 +413,31 @@ title="Print to PDF"
                 
   <section class="tex2jax_ignore mathjax_ignore" id="cost-functions-and-their-derivatives">
 <h1>Cost Functions and their Derivatives<a class="headerlink" href="#cost-functions-and-their-derivatives" title="Permalink to this headline">#</a></h1>
-<p>TODO:</p>
+<p>WIP</p>
 <ul class="simple">
-<li><p>MSE</p></li>
-<li><p>Binary CE</p></li>
+<li><p>Ignoring the sum and division by <span class="math notranslate nohighlight">\(m\)</span> for simplicity</p></li>
+<li><p>Note this are the derivatives with respect to <span class="math notranslate nohighlight">\(\hat{y}\)</span></p></li>
 </ul>
+<section id="mse">
+<h2>MSE<a class="headerlink" href="#mse" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p>Used for continous outputs</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[ C(\hat{y}, y) = \hat{y} - y^2 \]</div>
+<div class="math notranslate nohighlight">
+\[ C'(\hat{y}, y) = 2*(\hat{y} - y) \]</div>
+</section>
+<section id="binary-cross-entropy">
+<h2>Binary Cross-Entropy<a class="headerlink" href="#binary-cross-entropy" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p>Used for binary classification</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[ C(\hat{y}, y) = -y log(\hat{y}) - (1-y) log(1-\hat{y}) \]</div>
+<div class="math notranslate nohighlight">
+\[ C'(\hat{y}, y) = -\frac{y}{\hat{y}} + \frac{1-y}{1-\hat{y}} \]</div>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
