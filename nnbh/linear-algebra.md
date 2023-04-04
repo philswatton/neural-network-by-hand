@@ -1,7 +1,5 @@
 # Linear Algebra
 
-TODO
-
 A lot of the time, it's either easier or more convinient to express the math for not only neural networks but most statistical models and algorithms via linear algebra (sometimes called matrix algebra). Similarly, there are many computational advantages to using algorithms for matrices rather than for loops in terms of speed, so there are real benefits to being familiar with linear algebra.
 
 This section of the guide won't much linear algebra - just the parts you need to know to understand some of the later sections of this document. There are plenty of good linear algebra guides if you want a deeper treatment!
