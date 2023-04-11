@@ -193,4 +193,22 @@ One thing worth noting: if the first matrix is order $n \times m$, and the secon
 Unlike regular algebra, there is no guarantee that $\boldsymbol{A}\boldsymbol{B} = \boldsymbol{B}\boldsymbol{A}$ (or even that both exist). Because of this, it's important to pay attention to order when manipulating matrix equations.
 ```
 
-There's a lot more to linear algebra than this. Other things worth covering (and that you're likely to come across) are matrix inversion, determinants, matrix decomposition
+## Motivation
+
+So why go to the effort of multiplying matrices in this way?
+
+Well, consider the following system of equations:
+
+$$ y_1 = \beta_1 * x_{11} +  \beta_2 * x_{12} $$
+$$ y_2 = \beta_1 * x_{21} +  \beta_2 * x_{22} $$
+$$ y_3 = \beta_1 * x_{31} +  \beta_2 * x_{32} $$
+
+We can succinctly represent all three equations using matrices and vectors:
+
+$$ \boldsymbol{y} = \boldsymbol{X}\boldsymbol{\beta} $$
+
+$$ \begin{bmatrix} y_1 \\ y_2 \\ y_3 \end{bmatrix} = \begin{bmatrix} x_{11} & x_{12} \\ x_{21} & x_{22} \\ x_{31} & x_{32} \end{bmatrix} \begin{bmatrix} \beta_1 \\ \beta_2 \end{bmatrix} $$
+
+Indeed, going beyond the material in this quick introduction would cover various ways of solving for $\boldsymbol{\beta}$, including in cases where the parameters are probabilistic instead of deterministic. This is all way outside the necessary pre-requisites for feedforward neural networks, so I won't be covering it further here.
+
+Nonetheless, it's worth eventually spending some time doing a deeper dive on this material. Other things to cover (and that you're likely to come across as a social scientist) are matrix inversion, determinants, and matrix decomposition.

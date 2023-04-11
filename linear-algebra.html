@@ -409,6 +409,11 @@ title="Print to PDF"
    Matrix Multiplication
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#motivation">
+   Motivation
+  </a>
+ </li>
 </ul>
 
     </nav>
@@ -473,6 +478,11 @@ title="Print to PDF"
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#matrix-multiplication">
    Matrix Multiplication
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#motivation">
+   Motivation
   </a>
  </li>
 </ul>
@@ -663,7 +673,24 @@ title="Print to PDF"
 <p class="admonition-title">Note</p>
 <p>Unlike regular algebra, there is no guarantee that <span class="math notranslate nohighlight">\(\boldsymbol{A}\boldsymbol{B} = \boldsymbol{B}\boldsymbol{A}\)</span> (or even that both exist). Because of this, it’s important to pay attention to order when manipulating matrix equations.</p>
 </div>
-<p>There’s a lot more to linear algebra than this. Other things worth covering (and that you’re likely to come across) are matrix inversion, determinants, matrix decomposition</p>
+</section>
+<section id="motivation">
+<h2>Motivation<a class="headerlink" href="#motivation" title="Permalink to this headline">#</a></h2>
+<p>So why go to the effort of multiplying matrices in this way?</p>
+<p>Well, consider the following system of equations:</p>
+<div class="math notranslate nohighlight">
+\[ y_1 = \beta_1 * x_{11} +  \beta_2 * x_{12} \]</div>
+<div class="math notranslate nohighlight">
+\[ y_2 = \beta_1 * x_{21} +  \beta_2 * x_{22} \]</div>
+<div class="math notranslate nohighlight">
+\[ y_3 = \beta_1 * x_{31} +  \beta_2 * x_{32} \]</div>
+<p>We can succinctly represent all three equations using matrices and vectors:</p>
+<div class="math notranslate nohighlight">
+\[ \boldsymbol{y} = \boldsymbol{X}\boldsymbol{\beta} \]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split} \begin{bmatrix} y_1 \\ y_2 \\ y_3 \end{bmatrix} = \begin{bmatrix} x_{11} &amp; x_{12} \\ x_{21} &amp; x_{22} \\ x_{31} &amp; x_{32} \end{bmatrix} \begin{bmatrix} \beta_1 \\ \beta_2 \end{bmatrix} \end{split}\]</div>
+<p>Indeed, going beyond the material in this quick introduction would cover various ways of solving for <span class="math notranslate nohighlight">\(\boldsymbol{\beta}\)</span>, including in cases where the parameters are probabilistic instead of deterministic. This is all way outside the necessary pre-requisites for feedforward neural networks, so I won’t be covering it further here.</p>
+<p>Nonetheless, it’s worth eventually spending some time doing a deeper dive on this material. Other things to cover (and that you’re likely to come across as a social scientist) are matrix inversion, determinants, and matrix decomposition.</p>
 </section>
 </section>
 
